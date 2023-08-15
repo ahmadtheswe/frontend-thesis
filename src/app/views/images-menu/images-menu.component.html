@@ -1,0 +1,55 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Search</strong>
+      </c-card-header>
+      <c-card-body>
+        <form cForm>
+          <c-input-group class="mb-3">
+            <input aria-describedby="search-btn"
+                   aria-label="Title"
+                   cFormControl
+                   placeholder="Image title"
+            />
+            <form class="row row-cols-sm-auto">
+              <div class="col-12">
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="yyyy-mm-dd"
+                    name="dp"
+                    [displayMonths]="displayMonths"
+                    [navigation]="navigation"
+                    [outsideDays]="outsideDays"
+                    [showWeekNumbers]="showWeekNumbers"
+                    ngbDatepicker
+                    #d="ngbDatepicker"
+                  />
+                  <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                </div>
+              </div>
+            </form>
+            <button cButton color="primary" id="search-btn" type="button">
+              Button
+            </button>
+          </c-input-group>
+        </form>
+
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Images</strong>
+      </c-card-header>
+      <c-card-body>
+
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

@@ -1,0 +1,47 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Upload Image</strong>
+      </c-card-header>
+      <c-card-body>
+        <form cForm>
+          <div class="mb-3">
+            <label cLabel for="formFile">Image to upload</label>
+            <input cFormControl id="formFile" type="file"/>
+          </div>
+
+          <div class="mb-3">
+            <label cLabel for="titleFormControlInput">Image title</label>
+            <input cFormControl
+                   id="titleFormControlInput"
+                   placeholder="Input title here"
+                   type="text"
+            />
+          </div>
+          <div class="mb-3">
+            <label cLabel for="descriptionFormControlTextarea">Image description</label>
+            <textarea cFormControl
+                      id="descriptionFormControlTextarea"
+                      rows="3"
+                      placeholder="Input description here"></textarea>
+          </div>
+          <div class="mb-3">
+            <label cLabel>Visibility</label>
+              <c-form-check>
+                <input cFormCheckInput type="radio" value="public" name="visibilityFormControlRadioButton"/>
+                <label cFormCheckLabel>Public</label>
+              </c-form-check>
+              <c-form-check>
+                <input cFormCheckInput type="radio" value="private" name="visibilityFormControlRadioButton" checked/>
+                <label cFormCheckLabel>Private</label>
+              </c-form-check>
+          </div>
+          <div class="mb-3">
+            <button class="upload-button" cButton color="primary">Upload</button>
+          </div>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
