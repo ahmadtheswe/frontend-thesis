@@ -47,6 +47,11 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { ImagesMenuComponent } from './views/images-menu/images-menu.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSortModule} from "@angular/material/sort";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -89,6 +94,11 @@ const APP_CONTAINERS = [
     CardModule,
     FormsModule,
     NgbModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [
     {

@@ -29,7 +29,7 @@ import {NgbDatepicker} from "@ng-bootstrap/ng-bootstrap";
     AvatarModule,
     TableModule,
     WidgetsModule,
-    NgbDatepicker
+    NgbDatepicker,
   ]
 })
 export class ImagesMenuModule { }
