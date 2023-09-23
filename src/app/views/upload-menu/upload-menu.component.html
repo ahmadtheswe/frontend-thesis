@@ -5,10 +5,10 @@
         <strong>Upload Image</strong>
       </c-card-header>
       <c-card-body>
-        <form cForm>
+        <form cForm (ngSubmit)="onUpload()">
           <div class="mb-3">
             <label cLabel for="formFile">Image to upload</label>
-            <input cFormControl id="formFile" type="file"/>
+            <input cFormControl id="formFile" type="file" (change)="onFileSelected($event)" name="file"/>
           </div>
 
           <div class="mb-3">
@@ -17,6 +17,8 @@
                    id="titleFormControlInput"
                    placeholder="Input title here"
                    type="text"
+                   [(ngModel)]="title"
+                   name="title"
             />
           </div>
           <div class="mb-3">
@@ -29,16 +31,16 @@
           <div class="mb-3">
             <label cLabel>Visibility</label>
               <c-form-check>
-                <input cFormCheckInput type="radio" value="public" name="visibilityFormControlRadioButton"/>
+                <input cFormCheckInput id="isPublicTrue" type="radio" value="true" [(ngModel)]="isPublic" name="visibilityFormControlRadioButton"/>
                 <label cFormCheckLabel>Public</label>
               </c-form-check>
               <c-form-check>
-                <input cFormCheckInput type="radio" value="private" name="visibilityFormControlRadioButton" checked/>
+                <input cFormCheckInput id="isPublicFalse" type="radio" value="false" [(ngModel)]="isPublic" name="visibilityFormControlRadioButton"/>
                 <label cFormCheckLabel>Private</label>
               </c-form-check>
           </div>
           <div class="mb-3">
-            <button class="upload-button" cButton color="primary">Upload</button>
+            <button class="upload-button" type="submit" cButton color="primary">Upload</button>
           </div>
         </form>
       </c-card-body>
