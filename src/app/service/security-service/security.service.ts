@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {JwtHelperService} from "@auth0/angular-jwt";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {OAuthService, TokenResponse} from "angular-oauth2-oidc";
+import {Observable, tap} from "rxjs";
+import {DataResponse} from "../../model/dto/response/DataResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -9,26 +11,41 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 export class SecurityService {
 
   private prefixUrl = environment.securityUrl;
+  private _isAuthenticated = false;
 
   constructor(
     private http: HttpClient,
-    // private jwtHelper: JwtHelperService
+    private oauthService: OAuthService
   ) {
+    this._isAuthenticated = !!localStorage.getItem("accessToken");
   }
 
-  login(username: string, password: string) {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
+  get isAuthenticated() {
+    return this._isAuthenticated;
+  }
 
-    const body = new HttpParams()
-      .set('username', username)
-      .set('password', password)
-      .set('grant_type', 'password')
-      .set('scope', 'openid')
-      .set('client_id', 'image-keycloak-springboot')
-      .set('client_secret', 'XHabFbfDNgPN8Q65HDE9ns08cK9p8BcC');
-    return this.http.post(this.prefixUrl + '/login', body.toString(), {headers: headers});
+  login(username: string, password: string): Observable<DataResponse<TokenResponse>> {
+    return this.http.post(this.prefixUrl + '/login', {username: username, password: password})
+      .pipe(
+        tap(() => {
+          this._isAuthenticated = true;
+          console.log(this._isAuthenticated);
+        })
+      );
+  }
+
+  logout(): Observable<any> {
+    console.log(localStorage.getItem("accessToken"));
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
+      })
+    };
+    return this.http.get(this.prefixUrl + '/logout', httpOptions)
+      .pipe(tap(() => {
+        this._isAuthenticated = false;
+      }));
   }
 
 }

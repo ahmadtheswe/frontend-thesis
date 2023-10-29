@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  rootUrl: 'http://localhost:9090',
-  securityUrl: 'http://localhost/auth'
+  rootUrl: 'http://localhost:9092',
+  securityUrl: 'http://localhost:9091/api/user'
 };

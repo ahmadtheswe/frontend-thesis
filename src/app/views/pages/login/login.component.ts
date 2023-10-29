@@ -2,24 +2,32 @@ import {Component, OnDestroy} from '@angular/core';
 import {SecurityService} from "../../../service/security-service/security.service";
 import {Login} from "../../../model/dto/entity/Login";
 import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnDestroy{
+export class LoginComponent implements OnDestroy {
 
   loginRequest: Login = {};
   private subscription = new Subscription();
+
   constructor(
-    private securityService: SecurityService
-  ) { }
+    private securityService: SecurityService,
+    private router: Router
+  ) {
+  }
 
   onSubmit() {
     this.subscription = this.securityService.login(this.loginRequest.username!, this.loginRequest.password!)
       .subscribe(response => {
         console.log(response);
+        localStorage.setItem("accessToken", response.data?.access_token!);
+        localStorage.setItem("refreshToken", response.data?.refresh_token!);
+        console.log(localStorage.getItem("accessToken"));
+        this.router.navigate(['/dashboard']);
       })
   }
 
