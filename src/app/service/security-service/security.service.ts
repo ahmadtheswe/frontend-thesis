@@ -20,8 +20,16 @@ export class SecurityService {
     this._isAuthenticated = !!localStorage.getItem("accessToken");
   }
 
-  get isAuthenticated() {
-    return this._isAuthenticated;
+  get isAuthenticated(): boolean {
+    return this._isAuthenticated && !this.isTokenExpired;
+  }
+
+  get isTokenExpired(): boolean {
+    const expiry = localStorage.getItem("tokenExpiresAt");
+    if (!expiry) {
+      return true;
+    }
+    return parseInt(expiry) < new Date().getTime();
   }
 
   login(username: string, password: string): Observable<DataResponse<TokenResponse>> {
@@ -29,13 +37,17 @@ export class SecurityService {
       .pipe(
         tap(() => {
           this._isAuthenticated = true;
-          console.log(this._isAuthenticated);
         })
       );
   }
 
+  handleResponse(tokenResponse: TokenResponse): void {
+    localStorage.setItem("accessToken", tokenResponse?.access_token!);
+    localStorage.setItem("refreshToken", tokenResponse?.refresh_token!);
+    localStorage.setItem("tokenExpiresAt", (new Date().getTime() + tokenResponse?.expires_in! * 1000).toString());
+  }
+
   logout(): Observable<any> {
-    console.log(localStorage.getItem("accessToken"));
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

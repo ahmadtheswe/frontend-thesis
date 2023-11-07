@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {DataResponse} from "../../model/dto/response/DataResponse";
@@ -19,8 +19,15 @@ export class ImageService {
   }
 
   getImagesPagination(size: number, page: number, sortBy: string): Observable<PaginationResponse<Image>> {
+    console.log(localStorage.getItem("accessToken"));
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
+      })
+    };
     return this.http
-      .get<PaginationResponse<Image>>(`${environment.rootUrl}/image/v1?size=${size}&page=${page}&sortBy=${sortBy}`);
+      .get<PaginationResponse<Image>>(`${environment.rootUrl}/image/v1/admin?size=${size}&page=${page}&sortBy=${sortBy}`, httpOptions);
   }
 
   downloadImageById(id: string): Observable<any> {
@@ -28,10 +35,17 @@ export class ImageService {
   }
 
   uploadImageFile(fileToUpload: File, title: string, isPublic: boolean): Observable<DataResponse<Image>> {
+    debugger
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
+      })
+    };
+
     const formData: FormData = new FormData();
     formData.append('image', fileToUpload);
     formData.append('title', title);
     formData.append('isPublic', isPublic.toString());
-    return this.http.post<DataResponse<Image>>(`${environment.rootUrl}/image/v1`, formData);
+    return this.http.post<DataResponse<Image>>(`${environment.rootUrl}/image/v1/admin`, formData, httpOptions);
   }
 }

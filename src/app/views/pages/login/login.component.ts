@@ -23,10 +23,7 @@ export class LoginComponent implements OnDestroy {
   onSubmit() {
     this.subscription = this.securityService.login(this.loginRequest.username!, this.loginRequest.password!)
       .subscribe(response => {
-        console.log(response);
-        localStorage.setItem("accessToken", response.data?.access_token!);
-        localStorage.setItem("refreshToken", response.data?.refresh_token!);
-        console.log(localStorage.getItem("accessToken"));
+        this.securityService.handleResponse(response.data!);
         this.router.navigate(['/dashboard']);
       })
   }
