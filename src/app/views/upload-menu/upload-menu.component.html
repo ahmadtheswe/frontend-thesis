@@ -22,6 +22,39 @@
             />
           </div>
           <div class="mb-3">
+            <label cLabel for="priceIDRFormControlInput">Price (IDR)</label>
+            <input cFormControl
+                   id="priceIDRFormControlInput"
+                   placeholder="Input price here"
+                   type="number"
+                   [(ngModel)]="priceIDR"
+                   name="priceIDR"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label cLabel for="latitudeFormControlInput">Latitude</label>
+            <input cFormControl
+                   id="latitudeFormControlInput"
+                   placeholder="Input latitude here"
+                   type="number"
+                   [(ngModel)]="latitude"
+                   name="latitude"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label cLabel for="longitudeFormControlInput">Longitude</label>
+            <input cFormControl
+                   id="longitudeFormControlInput"
+                   placeholder="Input longitude here"
+                   type="number"
+                   [(ngModel)]="longitude"
+                   name="longitude"
+            />
+          </div>
+
+          <div class="mb-3">
             <label cLabel for="descriptionFormControlTextarea">Image description</label>
             <textarea cFormControl
                       id="descriptionFormControlTextarea"

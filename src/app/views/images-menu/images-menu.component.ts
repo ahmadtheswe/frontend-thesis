@@ -5,6 +5,7 @@ import {MatSort} from "@angular/material/sort";
 import {TestingService} from "../../service/testing-service/testing.service";
 import {ImageService} from "../../service/image-service/image.service";
 import {Image} from "../../model/dto/entity/Image";
+import {PaginationResponse} from "../../model/dto/response/PaginationResponse";
 
 @Component({
   selector: 'app-images-menu',
@@ -22,7 +23,7 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit {
   showEndWeekNumbers = false;
   endOutsideDays = 'visible';
 
-  displayedColumns: string[] = ['preview', 'title', 'uploaded-time', 'view-total', 'view'];
+  displayedColumns: string[] = ['preview', 'title', 'price-idr', 'coordinate', 'view'];
   totalItems: number = 0;
   pageSize: number = 5;
   currentPage: number = 0;
@@ -59,7 +60,7 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit {
 
   loadImagesData(size: number, page: number, sortBy: string) {
     this.imageService.getImagesPagination(size, page, sortBy).subscribe(
-      (response) => {
+      (response: PaginationResponse<Image>) => {
         if (response && response.data) {
           this.dataSource.data = response.data; // Assign the fetched data to the data source
           this.totalItems = response.paginationInfo?.totalItems!;

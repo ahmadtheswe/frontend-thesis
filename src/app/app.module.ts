@@ -54,6 +54,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {HttpClientModule} from "@angular/common/http";
 import {OAuthModule} from "angular-oauth2-oidc";
+import { ImagePipe } from './service/image-service/image.pipe';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -66,7 +67,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, ImagesMenuComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, ImagesMenuComponent, ImagePipe],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

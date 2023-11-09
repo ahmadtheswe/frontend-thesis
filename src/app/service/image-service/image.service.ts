@@ -34,8 +34,13 @@ export class ImageService {
     return this.http.get<any>(`${environment.rootUrl}/image/v1/view?id=${id}`);
   }
 
-  uploadImageFile(fileToUpload: File, title: string, isPublic: boolean): Observable<DataResponse<Image>> {
-    debugger
+  uploadImageFile(
+    fileToUpload: File,
+    title: string,
+    isPublic: boolean,
+    priceIDR: number,
+    latitude: number,
+    longitude: number): Observable<DataResponse<Image>> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
@@ -44,8 +49,11 @@ export class ImageService {
 
     const formData: FormData = new FormData();
     formData.append('image', fileToUpload);
-    formData.append('title', title);
+    formData.append('title', title.trim());
     formData.append('isPublic', isPublic.toString());
+    formData.append('priceIDR', priceIDR.toString());
+    formData.append('latitude', latitude.toString());
+    formData.append('longitude', longitude.toString());
     return this.http.post<DataResponse<Image>>(`${environment.rootUrl}/image/v1/admin`, formData, httpOptions);
   }
 }
