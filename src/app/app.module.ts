@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { BrowserModule, Title } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {NgModule} from '@angular/core';
+import {HashLocationStrategy, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import {BrowserModule, Title} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {
@@ -11,10 +11,10 @@ import {
 } from 'ngx-perfect-scrollbar';
 
 // Import routing module
-import { AppRoutingModule } from './app-routing.module';
+import {AppRoutingModule} from './app-routing.module';
 
 // Import app component
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 
 // Import containers
 import {
@@ -44,9 +44,9 @@ import {
   UtilitiesModule,
 } from '@coreui/angular';
 
-import { IconModule, IconSetService } from '@coreui/icons-angular';
-import { ImagesMenuComponent } from './views/images-menu/images-menu.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {IconModule, IconSetService} from '@coreui/icons-angular';
+import {ImagesMenuComponent} from './views/images-menu/images-menu.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
@@ -54,7 +54,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {HttpClientModule} from "@angular/common/http";
 import {OAuthModule} from "angular-oauth2-oidc";
-import { ImagePipe } from './service/image-service/image.pipe';
+import {ImagePipe} from './service/image-service/image.pipe';
+import {UploadMenuComponent} from "./views/upload-menu/upload-menu.component";
+import {MapExampleComponent} from './views/map-example/map-example.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -67,7 +69,13 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, ImagesMenuComponent, ImagePipe],
+  declarations: [
+    AppComponent,
+    ...APP_CONTAINERS,
+    ImagesMenuComponent,
+    UploadMenuComponent,
+    ImagePipe,
+    MapExampleComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

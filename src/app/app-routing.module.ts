@@ -7,6 +7,9 @@ import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
 import {AuthGuard} from "./service/security-service/auth.guard";
+import {UploadMenuComponent} from "./views/upload-menu/upload-menu.component";
+import {ImagesMenuComponent} from "./views/images-menu/images-menu.component";
+import {MapExampleComponent} from "./views/map-example/map-example.component";
 
 const routes: Routes = [
   {
@@ -30,14 +33,26 @@ const routes: Routes = [
       },
       {
         path: 'images',
-        loadChildren: () =>
-          import('./views/images-menu/images-menu.module').then((m) => m.ImagesMenuModule),
+        component: ImagesMenuComponent,
+        data: {
+          title: $localize`Images Menu`
+        },
         canActivate: [AuthGuard]
       },
       {
         path: 'upload',
-        loadChildren: () =>
-          import('./views/upload-menu/upload-menu.module').then((m) => m.UploadMenuModule),
+        component: UploadMenuComponent,
+        data: {
+          title: $localize`Admin Menu`
+        },
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'map-example',
+        component: MapExampleComponent,
+        data: {
+          title: $localize`Map Example`
+        },
         canActivate: [AuthGuard]
       },
       {
