@@ -18,16 +18,29 @@ export class ImageService {
     return this.http.get<DataResponse<Image>>(`${environment.rootUrl}/image/v1?id=${id}`);
   }
 
-  getImagesPagination(size: number, page: number, sortBy: string): Observable<PaginationResponse<Image>> {
-    console.log(localStorage.getItem("accessToken"));
+  getImagesPagination(size: number, page: number, sortBy: string, title?: string, latitude?: number, longitude?: number)
+    : Observable<PaginationResponse<Image>> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
       })
     };
+
+    let url = `${environment.rootUrl}/image/v1/admin?size=${size}&page=${page}&sortBy=${sortBy}`;
+
+    if (title) {
+      url += `&title=${encodeURIComponent(title)}`;
+    }
+    if (latitude !== null && latitude !== undefined) {
+      url += `&latitude=${latitude}`;
+    }
+    if (longitude !== null && longitude !== undefined) {
+      url += `&longitude=${longitude}`;
+    }
+
     return this.http
-      .get<PaginationResponse<Image>>(`${environment.rootUrl}/image/v1/admin?size=${size}&page=${page}&sortBy=${sortBy}`, httpOptions);
+      .get<PaginationResponse<Image>>(url, httpOptions);
   }
 
   downloadImageById(id: string): Observable<any> {

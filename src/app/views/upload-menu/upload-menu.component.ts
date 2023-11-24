@@ -12,8 +12,8 @@ export class UploadMenuComponent implements OnInit {
   public title: string = "";
   public isPublic: boolean = false;
   public priceIDR: number = 0;
-  public latitude: number = 0;
-  public longitude: number = 0;
+  public latitude?: number;
+  public longitude?: number;
 
   constructor(private imageService: ImageService) {
   }
@@ -25,14 +25,19 @@ export class UploadMenuComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
+  handleLatLongClicked(event: { lat?: number, lng?: number }) {
+    this.latitude = event.lat;
+    this.longitude = event.lng;
+  }
+
   onUpload() {
     this.imageService.uploadImageFile(
       this.selectedFile!,
       this.title,
       this.isPublic,
       this.priceIDR,
-      this.latitude,
-      this.longitude)
+      this.latitude!,
+      this.longitude!)
       .subscribe(response => {
         console.log(response);
       })

@@ -1,2 +1,17 @@
-<div id="map" style="height: 400px;"></div>
-<span>Lat = {{clickedLatLong.lat}} Lon = {{clickedLatLong.lng}}</span>
+<div [id]="mapId"></div>
+<div id="lat-lng-value">
+  <c-row>
+    <c-col [xs]>
+      <label cLabel for="latitude">Latitude</label>
+      <input id="latitude" aria-label="Latitude" [(ngModel)]="coordinateValue.lat" (ngModelChange)="updateMarker()"
+             [disabled]="!useCoordinateValue"
+             cFormControl placeholder="Latitude"/>
+    </c-col>
+    <c-col [xs]>
+      <label cLabel for="longitude">Longitude</label>
+      <input id="longitude" aria-label="Longitude" [(ngModel)]="coordinateValue.lng" (ngModelChange)="updateMarker()"
+             [disabled]="!useCoordinateValue"
+             cFormControl placeholder="Longitude"/>
+    </c-col>
+  </c-row>
+</div>

@@ -29,7 +29,7 @@ import {
   BreadcrumbModule,
   ButtonGroupModule,
   ButtonModule,
-  CardModule,
+  CardModule, CollapseModule,
   DropdownModule,
   FooterModule,
   FormModule,
@@ -57,6 +57,7 @@ import {OAuthModule} from "angular-oauth2-oidc";
 import {ImagePipe} from './service/image-service/image.pipe';
 import {UploadMenuComponent} from "./views/upload-menu/upload-menu.component";
 import {MapExampleComponent} from './views/map-example/map-example.component';
+import { ImagesMenuOnSaleComponent } from './views/images-menu-on-sale/images-menu-on-sale.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -75,7 +76,8 @@ const APP_CONTAINERS = [
     ImagesMenuComponent,
     UploadMenuComponent,
     ImagePipe,
-    MapExampleComponent],
+    MapExampleComponent,
+    ImagesMenuOnSaleComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -98,6 +100,7 @@ const APP_CONTAINERS = [
     SidebarModule,
     SharedModule,
     TabsModule,
+    CollapseModule,
     ListGroupModule,
     ProgressModule,
     BadgeModule,

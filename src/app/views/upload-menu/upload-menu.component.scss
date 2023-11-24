@@ -5,3 +5,13 @@ c-form-check {
 .upload-button {
   width: 200px;
 }
+
+.mb-3 {
+  border-bottom: rgba(44, 56, 74, 0.5) 2px dashed;
+  padding-bottom: 17px;
+}
+
+.mb-3:last-of-type {
+  border-bottom: 0;
+  padding-bottom: 17px;
+}

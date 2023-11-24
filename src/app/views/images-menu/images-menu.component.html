@@ -5,57 +5,40 @@
         <strong>Search</strong>
       </c-card-header>
       <c-card-body>
-        <form cForm>
-          <c-input-group class="mb-3">
-            <input aria-describedby="search-btn"
-                   aria-label="Title"
-                   cFormControl
-                   placeholder="Image title"
-            />
-            <form class="row row-cols-sm-auto">
-              <div class="col-12">
-                <div class="input-group">
-                  <input
-                    class="form-control"
-                    placeholder="yyyy-mm-dd (Start date)"
-                    name="dp"
-                    [displayMonths]="displayStartMonths"
-                    [navigation]="navigationStart"
-                    [outsideDays]="startOutsideDays"
-                    [showWeekNumbers]="showStartWeekNumbers"
-                    ngbDatepicker
-                    #startD="ngbDatepicker"
-                  />
-                  <button class="btn btn-outline-secondary bi bi-calendar3" (click)="startD.toggle()" type="button"></button>
-                </div>
-              </div>
-            </form>
-
-            <form class="row row-cols-sm-auto">
-              <div class="col-12">
-                <div class="input-group">
-                  <input
-                    class="form-control"
-                    placeholder="yyyy-mm-dd (End date)"
-                    name="dp"
-                    [displayMonths]="displayEndMonths"
-                    [navigation]="navigationEnd"
-                    [outsideDays]="endOutsideDays"
-                    [showWeekNumbers]="showEndWeekNumbers"
-                    ngbDatepicker
-                    #endD="ngbDatepicker"
-                  />
-                  <button class="btn btn-outline-secondary bi bi-calendar3" (click)="endD.toggle()" type="button"></button>
-                </div>
-              </div>
-            </form>
-
-            <button cButton color="primary" id="search-btn" type="button">
-              Search
-            </button>
-          </c-input-group>
+        <form cRow (ngSubmit)="onSubmitFilter()">
+          <div class="mb-3">
+            <label cLabel class="visually-hidden" for="inlineFormInputGroupUsername">
+              Image Title
+            </label>
+            <c-input-group>
+              <span cInputGroupText>Image Title</span>
+              <input cFormControl id="inlineFormInputGroupUsername"
+                     [(ngModel)]="title"
+                     placeholder="Input image title here" name="title"
+              />
+            </c-input-group>
+          </div>
+          <div class="mb-3">
+            <label cLabel for="coordinate">
+              Coordinate
+              <c-form-check>
+                <input [checked]="useCoordinateSearch" [(ngModel)]="useCoordinateSearch" cFormCheckInput
+                       id="useCoordinateSearch"
+                       type="checkbox"
+                       name="useCoordinateSearch"
+                />
+                <label cFormCheckLabel for="useCoordinateSearch">Use Coordinate Search</label>
+              </c-form-check>
+            </label>
+            <app-map-example id="coordinate" (latLongClicked)="handleLatLongClicked($event)"
+                             [useCoordinateValue]="useCoordinateSearch"
+                             [mapId]="'image-menu-map'"
+            ></app-map-example>
+          </div>
+          <div class="mb-3">
+            <button cButton type="submit">Submit</button>
+          </div>
         </form>
-
       </c-card-body>
     </c-card>
   </c-col>
@@ -72,7 +55,7 @@
           <table mat-table [dataSource]="dataSource" matSort>
             <!-- Name Column -->
             <ng-container matColumnDef="preview">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Preview </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Preview</th>
               <td mat-cell *matCellDef="let row">
                 <img class="image-preview" [src]="row.id | image | async" [alt]="row.id">
               </td>
@@ -80,25 +63,27 @@
 
             <!-- Progress Column -->
             <ng-container matColumnDef="title">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Title</th>
               <td mat-cell *matCellDef="let row"> {{row.title}} </td>
             </ng-container>
 
             <!-- Fruit Column -->
             <ng-container matColumnDef="price-idr">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Price (IDR) </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Price (IDR)</th>
               <td mat-cell *matCellDef="let row"> {{row.priceIDR}} </td>
             </ng-container>
 
             <!-- Fruit Column -->
             <ng-container matColumnDef="coordinate">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Coordinate </th>
-              <td mat-cell *matCellDef="let row"> ({{row.latitude}} , {{row.longitude}}) </td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Coordinate</th>
+              <td mat-cell *matCellDef="let row"> ({{row.latitude}} , {{row.longitude}})</td>
             </ng-container>
 
             <ng-container matColumnDef="view">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> View Total </th>
-              <td mat-cell *matCellDef="let row"> <button class="btn btn-primary" (click)="testingApi()">View</button> </td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> View Total</th>
+              <td mat-cell *matCellDef="let row">
+                <button class="btn btn-primary" (click)="testingApi()">View</button>
+              </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
