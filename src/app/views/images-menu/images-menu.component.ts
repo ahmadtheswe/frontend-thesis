@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
@@ -6,14 +6,15 @@ import {TestingService} from "../../service/testing-service/testing.service";
 import {ImageService} from "../../service/image-service/image.service";
 import {Image} from "../../model/dto/entity/Image";
 import {PaginationResponse} from "../../model/dto/response/PaginationResponse";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-images-menu',
   templateUrl: './images-menu.component.html',
   styleUrls: ['./images-menu.component.scss']
 })
-export class ImagesMenuComponent implements AfterViewInit, OnInit {
-  displayedColumns: string[] = ['preview', 'title', 'price-idr', 'coordinate', 'view'];
+export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
+  displayedColumns: string[] = ['preview', 'title', 'coordinate', 'price-idr', 'view'];
   totalItems: number = 0;
   pageSize: number = 5;
   currentPage: number = 0;
@@ -24,6 +25,8 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit {
   dataSource: MatTableDataSource<Image> = new MatTableDataSource<Image>();
   useCoordinateSearch: boolean = true;
 
+  subscription: Subscription = new Subscription();
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -31,6 +34,10 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit {
     private testingService: TestingService,
     private imageService: ImageService
   ) {
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -50,10 +57,10 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit {
 
   loadImagesData(size: number, page: number, sortBy: string,
                  title?: string, latitude?: number, longitude?: number): void {
-    this.imageService.getImagesPagination(size, page, sortBy, title, latitude, longitude).subscribe(
+    this.subscription.add(this.imageService.getImagesPagination(size, page, sortBy, title, latitude, longitude).subscribe(
       (response: PaginationResponse<Image>) => {
         if (response && response.data) {
-          this.dataSource.data = response.data; // Assign the fetched data to the data source
+          this.dataSource.data = response.data;
           this.totalItems = response.paginationInfo?.totalItems!;
           this.currentPage = response.paginationInfo?.currentPage!;
           this.paginator.length = this.totalItems;
@@ -65,7 +72,7 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit {
       (error) => {
         console.error('Error fetching images:', error);
       }
-    );
+    ));
   }
 
   onPageChange(event: any): void {

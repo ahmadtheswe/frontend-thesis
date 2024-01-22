@@ -7,8 +7,13 @@
       <c-card-body>
         <form cForm (ngSubmit)="onUpload()">
           <div class="mb-3">
-            <label cLabel for="formFile">Image to upload</label>
-            <input cFormControl id="formFile" type="file" (change)="onFileSelected($event)" name="file"/>
+            <label cLabel for="formImageFile">Image to upload</label>
+            <input cFormControl id="formImageFile" type="file" (change)="onImageFileSelected($event)" name="file"/>
+          </div>
+
+          <div class="mb-3">
+            <label cLabel for="formThumbnailFile">Thumbnail to upload</label>
+            <input cFormControl id="formThumbnailFile" type="file" (change)="onThumbnailFileSelected($event)" name="file"/>
           </div>
 
           <div class="mb-3">
@@ -19,16 +24,6 @@
                    type="text"
                    [(ngModel)]="title"
                    name="title"
-            />
-          </div>
-          <div class="mb-3">
-            <label cLabel for="priceIDRFormControlInput">Price (IDR)</label>
-            <input cFormControl
-                   id="priceIDRFormControlInput"
-                   placeholder="Input price here"
-                   type="number"
-                   [(ngModel)]="priceIDR"
-                   name="priceIDR"
             />
           </div>
 
@@ -55,6 +50,25 @@
             <c-form-check>
               <input cFormCheckInput id="isPublicFalse" type="radio" value="false" [(ngModel)]="isPublic"
                      name="visibilityFormControlRadioButton"/>
+              <label cFormCheckLabel>Private</label>
+            </c-form-check>
+          </div>
+
+          <div class="mb-3">
+            <label cLabel>Product Level</label>
+            <c-form-check>
+              <input cFormCheckInput id="productFree" type="radio" value="FREE" [(ngModel)]="productLevel"
+                     name="productLevelFormControlRadioButton"/>
+              <label cFormCheckLabel>FREE</label>
+            </c-form-check>
+            <c-form-check>
+              <input cFormCheckInput id="productPro" type="radio" value="PRO" [(ngModel)]="productLevel"
+                     name="productLevelFormControlRadioButton"/>
+              <label cFormCheckLabel>Private</label>
+            </c-form-check>
+            <c-form-check>
+              <input cFormCheckInput id="productPremium" type="radio" value="PREMIUM" [(ngModel)]="productLevel"
+                     name="productLevelFormControlRadioButton"/>
               <label cFormCheckLabel>Private</label>
             </c-form-check>
           </div>

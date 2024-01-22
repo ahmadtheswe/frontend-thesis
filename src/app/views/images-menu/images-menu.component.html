@@ -68,15 +68,15 @@
             </ng-container>
 
             <!-- Fruit Column -->
-            <ng-container matColumnDef="price-idr">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Price (IDR)</th>
-              <td mat-cell *matCellDef="let row"> {{row.priceIDR}} </td>
-            </ng-container>
-
-            <!-- Fruit Column -->
             <ng-container matColumnDef="coordinate">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Coordinate</th>
               <td mat-cell *matCellDef="let row"> ({{row.latitude}} , {{row.longitude}})</td>
+            </ng-container>
+
+            <!-- Fruit Column -->
+            <ng-container matColumnDef="price-idr">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Price (IDR)</th>
+              <td mat-cell *matCellDef="let row"> {{row.productLevel}} </td>
             </ng-container>
 
             <ng-container matColumnDef="view">

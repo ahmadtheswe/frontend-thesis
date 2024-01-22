@@ -8,7 +8,7 @@ export interface Image {
   createdAt?: number;
   latestAccess?: number;
   isPublic?: boolean;
-  priceIDR?: number;
+  productLevel?: string;
   latitude?: number;
   longitude?: number;
 }

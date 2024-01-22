@@ -8,10 +8,11 @@ import {ImageService} from "../../service/image-service/image.service";
 })
 export class UploadMenuComponent implements OnInit {
 
-  public selectedFile: File | null = null;
+  public imageFileToUploadFile: File | null = null;
+  public thumbnailFileToUploadFile: File | null = null;
   public title: string = "";
+  public productLevel: string = "FREE";
   public isPublic: boolean = false;
-  public priceIDR: number = 0;
   public latitude?: number;
   public longitude?: number;
 
@@ -21,8 +22,12 @@ export class UploadMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
+  onImageFileSelected(event: any): void {
+    this.imageFileToUploadFile = event.target.files[0];
+  }
+
+  onThumbnailFileSelected(event: any): void {
+    this.thumbnailFileToUploadFile = event.target.files[0];
   }
 
   handleLatLongClicked(event: { lat?: number, lng?: number }) {
@@ -32,12 +37,13 @@ export class UploadMenuComponent implements OnInit {
 
   onUpload() {
     this.imageService.uploadImageFile(
-      this.selectedFile!,
+      this.imageFileToUploadFile!,
+      this.thumbnailFileToUploadFile!,
       this.title,
       this.isPublic,
-      this.priceIDR,
       this.latitude!,
-      this.longitude!)
+      this.longitude!,
+      this.productLevel)
       .subscribe(response => {
         console.log(response);
       })

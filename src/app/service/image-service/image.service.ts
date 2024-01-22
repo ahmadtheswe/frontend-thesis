@@ -49,11 +49,12 @@ export class ImageService {
 
   uploadImageFile(
     fileToUpload: File,
+    thumbnailFileToUpload: File,
     title: string,
     isPublic: boolean,
-    priceIDR: number,
     latitude: number,
-    longitude: number): Observable<DataResponse<Image>> {
+    longitude: number,
+    productLevel: string): Observable<DataResponse<Image>> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
@@ -62,11 +63,12 @@ export class ImageService {
 
     const formData: FormData = new FormData();
     formData.append('image', fileToUpload);
+    formData.append('thumbnail', thumbnailFileToUpload);
     formData.append('title', title.trim());
     formData.append('isPublic', isPublic.toString());
-    formData.append('priceIDR', priceIDR.toString());
     formData.append('latitude', latitude.toString());
     formData.append('longitude', longitude.toString());
+    formData.append('productLevel', productLevel.trim());
     return this.http.post<DataResponse<Image>>(`${environment.rootUrl}/image/v1/admin`, formData, httpOptions);
   }
 }
