@@ -4,33 +4,51 @@
       <c-col lg="7" md="9" xl="6">
         <c-card class="mx-4">
           <c-card-body class="p-4">
-            <form cForm>
+            <form cForm (ngSubmit)="onSubmit()" #signUpForm="ngForm" class="needs-validation" ngNativeValidate>
               <h1>Register</h1>
               <p class="text-medium-emphasis">Create your account</p>
               <c-input-group class="mb-3">
                 <span cInputGroupText>
                   <svg cIcon name="cilUser"></svg>
                 </span>
-                <input autoComplete="name" cFormControl placeholder="Username" />
+                <input autoComplete="username" cFormControl placeholder="Username" required [(ngModel)]="registerRequest.username" [ngModelOptions]="{standalone: true}" />
+                <c-form-feedback [valid]="false">Username can't be empty!</c-form-feedback>
               </c-input-group>
               <c-input-group class="mb-3">
                 <span cInputGroupText>@</span>
-                <input autoComplete="email" cFormControl placeholder="Email" />
+                <input autoComplete="email" cFormControl placeholder="Email" required [(ngModel)]="registerRequest.email" [ngModelOptions]="{standalone: true}" />
+                <c-form-feedback [valid]="false">Email can't be empty!</c-form-feedback>
+              </c-input-group>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilUser"></svg>
+                </span>
+                <input autoComplete="firstName" cFormControl placeholder="First name" required [(ngModel)]="registerRequest.firstName" [ngModelOptions]="{standalone: true}" />
+                <c-form-feedback [valid]="false">First name can't be empty!</c-form-feedback>
+              </c-input-group>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilUser"></svg>
+                </span>
+                <input autoComplete="lastName" cFormControl placeholder="Last name" required [(ngModel)]="registerRequest.lastName" [ngModelOptions]="{standalone: true}" />
+                <c-form-feedback [valid]="false">Last name can't be empty!</c-form-feedback>
               </c-input-group>
               <c-input-group class="mb-3">
                 <span cInputGroupText>
                   <svg cIcon name="cilLockLocked"></svg>
                 </span>
-                <input autoComplete="new-password" cFormControl placeholder="Password" type="password" />
+                <input autoComplete="new-password" cFormControl required placeholder="Password" [type]="'password'" [(ngModel)]="registerRequest.password" [ngModelOptions]="{standalone: true}" />
+                <c-form-feedback [valid]="false">Password can't be empty!</c-form-feedback>
               </c-input-group>
               <c-input-group class="mb-4">
                 <span cInputGroupText>
                   <svg cIcon name="cilLockLocked"></svg>
                 </span>
-                <input autoComplete="new-password" cFormControl placeholder="Repeat password" type="password" />
+                <input autoComplete="new-password" cFormControl required placeholder="Repeat password" [type]="'password'" [(ngModel)]="repeatPassword" [ngModelOptions]="{standalone: true}" />
+                <c-form-feedback [valid]="false">Password verification can't be empty!</c-form-feedback>
               </c-input-group>
               <div class="d-grid">
-                <button cButton color="success">Create Account</button>
+                <button cButton color="success" type="submit">Create Account</button>
               </div>
             </form>
           </c-card-body>
@@ -39,3 +57,19 @@
     </c-row>
   </c-container>
 </div>
+
+<c-toaster [placement]="position" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="alreadyRegister"
+    [color]="isSuccess? 'primary': 'danger'"
+  >
+    <c-toast-header>
+      Registration
+    </c-toast-header>
+    <c-toast-body>
+      <p>{{ message ? message : [0] }}</p>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>

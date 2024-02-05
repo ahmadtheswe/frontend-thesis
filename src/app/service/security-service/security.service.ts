@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {OAuthService, TokenResponse} from "angular-oauth2-oidc";
 import {Observable, tap} from "rxjs";
 import {DataResponse} from "../../model/dto/response/DataResponse";
+import {RegisterRequest} from "./security-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +60,10 @@ export class SecurityService {
         this._isAuthenticated = false;
       }));
   }
+
+  register(registerRequest: RegisterRequest): Observable<HttpResponse<DataResponse<string>>> {
+    return this.http.post<DataResponse<string>>(this.prefixUrl + '/registration', registerRequest, { observe: 'response' });
+  }
+
 
 }
