@@ -22,10 +22,12 @@ export class LoginComponent implements OnDestroy {
 
   onSubmit() {
     this.subscription = this.securityService.login(this.loginRequest.username!, this.loginRequest.password!)
-      .subscribe(response => {
-        this.securityService.handleResponse(response.data!);
-        this.router.navigate(['/dashboard']);
-      })
+      .subscribe({
+        next: response => {
+          this.securityService.handleResponse(response.data!);
+          this.router.navigate(['/dashboard']);
+        }
+      });
   }
 
   ngOnDestroy(): void {

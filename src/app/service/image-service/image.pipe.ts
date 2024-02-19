@@ -2,14 +2,16 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {lastValueFrom} from "rxjs";
+import {SecurityService} from "../security-service/security.service";
 
 @Pipe({
-  name: 'image'
+  name: 'imageThumbnail'
 })
 export class ImagePipe implements PipeTransform {
 
   constructor(
     private http: HttpClient,
+    private securityService: SecurityService
   ) {
   }
 
@@ -17,8 +19,11 @@ export class ImagePipe implements PipeTransform {
     const httpOptions = new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
     });
+    const url = this.securityService.getRole() === 'admin'?
+      `${environment.rootUrl}/image/v1/admin/view/thumbnail?id=${imageId}`:
+      `${environment.rootUrl}/image/v1/regular/view/thumbnail?id=${imageId}`;
     const imageBlob = await lastValueFrom(
-      this.http.get(`${environment.rootUrl}/image/v1/admin/view?id=${imageId}`, {
+      this.http.get(url, {
         headers: httpOptions,
         responseType: 'blob',
       })

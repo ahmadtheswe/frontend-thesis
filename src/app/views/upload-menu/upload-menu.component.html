@@ -43,12 +43,12 @@
           <div class="mb-3">
             <label cLabel>Visibility</label>
             <c-form-check>
-              <input cFormCheckInput id="isPublicTrue" type="radio" value="true" [(ngModel)]="isPublic"
+              <input cFormCheckInput id="isPublicTrue" type="radio" [value]="true" [(ngModel)]="isPublic"
                      name="visibilityFormControlRadioButton"/>
               <label cFormCheckLabel>Public</label>
             </c-form-check>
             <c-form-check>
-              <input cFormCheckInput id="isPublicFalse" type="radio" value="false" [(ngModel)]="isPublic"
+              <input cFormCheckInput id="isPublicFalse" type="radio" [valid]="false" [(ngModel)]="isPublic"
                      name="visibilityFormControlRadioButton"/>
               <label cFormCheckLabel>Private</label>
             </c-form-check>
@@ -57,19 +57,19 @@
           <div class="mb-3">
             <label cLabel>Product Level</label>
             <c-form-check>
-              <input cFormCheckInput id="productFree" type="radio" value="FREE" [(ngModel)]="productLevel"
+              <input cFormCheckInput id="productFree" type="radio" [value]="'FREE'" [(ngModel)]="productLevel"
                      name="productLevelFormControlRadioButton"/>
               <label cFormCheckLabel>FREE</label>
             </c-form-check>
             <c-form-check>
-              <input cFormCheckInput id="productPro" type="radio" value="PRO" [(ngModel)]="productLevel"
+              <input cFormCheckInput id="productPro" type="radio" [value]="'PRO'" [(ngModel)]="productLevel"
                      name="productLevelFormControlRadioButton"/>
-              <label cFormCheckLabel>Private</label>
+              <label cFormCheckLabel>PRO</label>
             </c-form-check>
             <c-form-check>
-              <input cFormCheckInput id="productPremium" type="radio" value="PREMIUM" [(ngModel)]="productLevel"
+              <input cFormCheckInput id="productPremium" type="radio" [value]="'PREMIUM'" [(ngModel)]="productLevel"
                      name="productLevelFormControlRadioButton"/>
-              <label cFormCheckLabel>Private</label>
+              <label cFormCheckLabel>PREMIUM</label>
             </c-form-check>
           </div>
           <div class="mb-3">

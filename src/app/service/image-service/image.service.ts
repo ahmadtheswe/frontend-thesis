@@ -1,17 +1,18 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {DataResponse} from "../../model/dto/response/DataResponse";
 import {Image} from "../../model/dto/entity/Image";
 import {PaginationResponse} from "../../model/dto/response/PaginationResponse";
+import {SecurityService} from "../security-service/security.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private imageService: SecurityService) {
   }
 
   getImageById(id: string): Observable<DataResponse<Image>> {
@@ -27,7 +28,9 @@ export class ImageService {
       })
     };
 
-    let url = `${environment.rootUrl}/image/v1/admin?size=${size}&page=${page}&sortBy=${sortBy}`;
+    let url = this.imageService.getRole() === "admin" ?
+      `${environment.rootUrl}/image/v1/admin?size=${size}&page=${page}&sortBy=${sortBy}` :
+      `${environment.rootUrl}/image/v1/regular?size=${size}&page=${page}&sortBy=${sortBy}`;
 
     if (title) {
       url += `&title=${encodeURIComponent(title)}`;

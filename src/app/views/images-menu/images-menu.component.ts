@@ -5,7 +5,6 @@ import {MatSort} from "@angular/material/sort";
 import {TestingService} from "../../service/testing-service/testing.service";
 import {ImageService} from "../../service/image-service/image.service";
 import {Image} from "../../model/dto/entity/Image";
-import {PaginationResponse} from "../../model/dto/response/PaginationResponse";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -14,20 +13,23 @@ import {Subscription} from "rxjs";
   styleUrls: ['./images-menu.component.scss']
 })
 export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
-  displayedColumns: string[] = ['preview', 'title', 'coordinate', 'price-idr', 'view'];
+  displayedColumns: string[] = ['preview', 'title', 'coordinate', 'bundle', 'view'];
+
   totalItems: number = 0;
   pageSize: number = 5;
-  currentPage: number = 0;
+  pageIndex: number = 0;
   title?: string;
   latitude?: number;
   longitude?: number;
+
+
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   dataSource: MatTableDataSource<Image> = new MatTableDataSource<Image>();
   useCoordinateSearch: boolean = true;
 
   subscription: Subscription = new Subscription();
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
@@ -41,12 +43,12 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadImagesData(this.pageSize, this.currentPage, 'id', this.title, this.latitude, this.longitude);
   }
 
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.loadImagesData(this.pageSize, this.pageIndex, 'id', this.title, this.latitude, this.longitude);
   }
 
   testingApi(): void {
@@ -57,32 +59,39 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
 
   loadImagesData(size: number, page: number, sortBy: string,
                  title?: string, latitude?: number, longitude?: number): void {
-    this.subscription.add(this.imageService.getImagesPagination(size, page, sortBy, title, latitude, longitude).subscribe(
-      (response: PaginationResponse<Image>) => {
+    this.subscription.add(this.imageService.getImagesPagination(size, page, sortBy, title, latitude, longitude).subscribe({
+      next: response => {
         if (response && response.data) {
           this.dataSource.data = response.data;
           this.totalItems = response.paginationInfo?.totalItems!;
-          this.currentPage = response.paginationInfo?.currentPage!;
-          this.paginator.length = this.totalItems;
-          console.log(this.pageSize);
-          console.log(this.totalItems);
-          console.log(this.currentPage);
+          this.pageIndex = response.paginationInfo?.currentPage!;
+          this.pageSize = response.paginationInfo?.pageSize!;
+          // this.paginator.length = this.totalItems;
+          // this.paginator.pageSize = this.pageSize;
+          // this.paginator.pageSizeOptions = this.pageSizeOptions;
+          // this.paginator.pageIndex = this.currentPage;
+
+          this.dataSource.paginator = this.paginator;
+
+          console.log('paginator: ', this.paginator);
         }
       },
-      (error) => {
+      error: error => {
         console.error('Error fetching images:', error);
       }
-    ));
+    }));
   }
 
   onPageChange(event: any): void {
+    // this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex;
+    this.totalItems = event.length;
     console.log('Page size:', this.pageSize);
-    console.log('Current page:', this.currentPage);
+    console.log('Current page:', this.pageIndex);
     const sortBy = 'id'; // You can adjust this as needed
 
-    this.loadImagesData(this.pageSize, this.currentPage, sortBy, this.title, this.latitude, this.longitude);
+    this.loadImagesData(this.pageSize, this.pageIndex, sortBy, this.title, this.latitude, this.longitude);
   }
 
   onSubmitFilter(): void {

@@ -1,5 +1,4 @@
 import {Component, Input, OnDestroy} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
 
 import {ClassToggleService, HeaderComponent} from '@coreui/angular';
 import {Subscription} from "rxjs";
@@ -27,11 +26,18 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnDestroy
   }
 
   onLogoutClick(): void {
-    this.subscription = this.securityService.logout().subscribe(value => {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+    debugger
+    if (!this.securityService.isTokenExpired) {
+      this.securityService.cleanLocalStorage();
       this.router.navigate(['/login']);
-    });
+    } else {
+      this.subscription.add(this.securityService.logout().subscribe({
+        next: value => {
+          this.securityService.cleanLocalStorage();
+          this.router.navigate(['/login']);
+        }
+      }));
+    }
   }
 
   ngOnDestroy(): void {

@@ -1,6 +1,6 @@
-import { INavData } from '@coreui/angular';
+import {ExtendedINavData} from "./ExtendedINavData";
 
-export const navItems: INavData[] = [
+export const navItems: ExtendedINavData[] = [
   {
     name: 'Dashboard',
     url: '/dashboard',
@@ -13,7 +13,8 @@ export const navItems: INavData[] = [
   {
     name: 'Upload Image',
     url: '/upload',
-    iconComponent: { name: 'cil-speedometer' }
+    iconComponent: { name: 'cil-speedometer' },
+    isAdminRequired: true
   },
   {
     name: 'Images',
@@ -23,7 +24,8 @@ export const navItems: INavData[] = [
   {
     name: 'Map Example',
     url: '/map-example',
-    iconComponent: { name: 'cil-speedometer' }
+    iconComponent: { name: 'cil-speedometer' },
+    isAdminRequired: true
   },
   {
     title: true,
