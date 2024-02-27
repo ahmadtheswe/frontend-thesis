@@ -23,7 +23,7 @@ export class SecurityService {
   }
 
   get isAuthenticated(): boolean {
-    return this._isAuthenticated || !this.isTokenExpired;
+    return this._isAuthenticated && !this.isTokenExpired;
   }
 
   get isTokenExpired(): boolean {
@@ -48,10 +48,15 @@ export class SecurityService {
     localStorage.setItem("refreshToken", tokenResponse?.refresh_token!);
     localStorage.setItem("tokenExpiresAt", (new Date().getTime() + tokenResponse?.expires_in! * 1000).toString());
     localStorage.setItem("role", tokenResponse?.role!);
+    localStorage.setItem("subscriptionLevel", tokenResponse?.subscriptionLevel!);
   }
 
   getRole() {
     return localStorage.getItem("role");
+  }
+
+  getSubscriptionLevel() {
+    return localStorage.getItem("subscriptionLevel");
   }
 
   logout(): Observable<any> {
@@ -73,6 +78,7 @@ export class SecurityService {
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("tokenExpiresAt");
     localStorage.removeItem("role");
+    localStorage.removeItem("subscriptionLevel");
   }
 
   register(registerRequest: RegisterRequest): Observable<HttpResponse<DataResponse<string>>> {
