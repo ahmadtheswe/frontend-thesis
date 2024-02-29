@@ -1,0 +1,10 @@
+<div class="image-detail-container">
+  <div class="thumbnail-container">
+    <h1>Thumbnail / Preview</h1>
+    <img class="image-preview" [src]="imageId | imageThumbnail | async" [alt]="imageId">
+  </div>
+
+  <div>
+    <button type="button" class="btn btn-primary" (click)="downloadImage()">Download</button>
+  </div>
+</div>

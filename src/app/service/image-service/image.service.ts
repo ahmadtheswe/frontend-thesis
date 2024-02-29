@@ -74,4 +74,29 @@ export class ImageService {
     formData.append('productLevel', productLevel.trim());
     return this.http.post<DataResponse<Image>>(`${environment.rootUrl}/image/v1/admin`, formData, httpOptions);
   }
+
+  storeImageId(image: Image) {
+    localStorage.setItem("imageId", image.id!);
+  }
+
+  removeImageId() {
+    localStorage.removeItem("imageId");
+  }
+
+  getImageId(): string {
+    return localStorage.getItem("imageId")!;
+  }
+
+  regularDownloadImage(imageId: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
+      })
+    };
+
+    return this.http.get(`${environment.rootUrl}/image/v1/regular/view?id=${imageId}`, {
+      responseType: 'blob',
+      headers: httpOptions.headers
+    });
+  }
 }

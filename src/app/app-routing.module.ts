@@ -10,6 +10,8 @@ import {AuthGuard} from "./service/security-service/auth.guard";
 import {UploadMenuComponent} from "./views/upload-menu/upload-menu.component";
 import {ImagesMenuComponent} from "./views/images-menu/images-menu.component";
 import {MapExampleComponent} from "./views/map-example/map-example.component";
+import {ImageDetailComponent} from "./views/images-menu/image-detail/image-detail.component";
+import {UpgradeComponent} from "./views/upgrade/upgrade.component";
 
 const routes: Routes = [
   {
@@ -37,6 +39,14 @@ const routes: Routes = [
         data: {
           title: $localize`Images Menu`
         },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'images/detail',
+        component: ImageDetailComponent,
+        data: {
+          title: $localize`Images Detail`
+        },
         canActivate: [AuthGuard]
       },
       {
@@ -44,6 +54,14 @@ const routes: Routes = [
         component: UploadMenuComponent,
         data: {
           title: $localize`Admin Menu`
+        },
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'upgrade/:package',
+        component: UpgradeComponent,
+        data: {
+          title: $localize`Upgrade Subscription`
         },
         canActivate: [AuthGuard]
       },

@@ -35,7 +35,7 @@ import {
   FormModule,
   GridModule,
   HeaderModule,
-  ListGroupModule,
+  ListGroupModule, ModalModule,
   NavModule,
   ProgressModule,
   SharedModule,
@@ -57,6 +57,8 @@ import {OAuthModule} from "angular-oauth2-oidc";
 import {ImagePipe} from './service/image-service/image.pipe';
 import {UploadMenuComponent} from "./views/upload-menu/upload-menu.component";
 import {MapExampleComponent} from './views/map-example/map-example.component';
+import { ImageDetailComponent } from './views/images-menu/image-detail/image-detail.component';
+import { UpgradeComponent } from './views/upgrade/upgrade.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -75,7 +77,9 @@ const APP_CONTAINERS = [
     ImagesMenuComponent,
     UploadMenuComponent,
     ImagePipe,
-    MapExampleComponent],
+    MapExampleComponent,
+    ImageDetailComponent,
+    UpgradeComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -112,7 +116,8 @@ const APP_CONTAINERS = [
     MatFormFieldModule,
     MatInputModule,
     HttpClientModule,
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(),
+    ModalModule
   ],
   providers: [
     {

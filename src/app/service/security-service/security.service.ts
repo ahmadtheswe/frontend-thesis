@@ -49,6 +49,8 @@ export class SecurityService {
     localStorage.setItem("tokenExpiresAt", (new Date().getTime() + tokenResponse?.expires_in! * 1000).toString());
     localStorage.setItem("role", tokenResponse?.role!);
     localStorage.setItem("subscriptionLevel", tokenResponse?.subscriptionLevel!);
+    localStorage.setItem("email", tokenResponse?.email!);
+    localStorage.setItem("username", tokenResponse?.username!);
   }
 
   getRole() {
@@ -79,6 +81,8 @@ export class SecurityService {
     localStorage.removeItem("tokenExpiresAt");
     localStorage.removeItem("role");
     localStorage.removeItem("subscriptionLevel");
+    localStorage.removeItem("email");
+    localStorage.removeItem("username");
   }
 
   register(registerRequest: RegisterRequest): Observable<HttpResponse<DataResponse<string>>> {

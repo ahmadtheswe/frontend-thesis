@@ -6,6 +6,8 @@ import {TestingService} from "../../service/testing-service/testing.service";
 import {ImageService} from "../../service/image-service/image.service";
 import {Image} from "../../model/dto/entity/Image";
 import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
+import {SecurityService} from "../../service/security-service/security.service";
 
 @Component({
   selector: 'app-images-menu',
@@ -29,12 +31,16 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
 
   subscription: Subscription = new Subscription();
 
+  selectedImage: Image = new Image();
+
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private testingService: TestingService,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private securityService: SecurityService,
+    private router: Router
   ) {
   }
 
@@ -51,10 +57,26 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
     this.loadImagesData(this.pageSize, this.pageIndex, 'id', this.title, this.latitude, this.longitude);
   }
 
-  testingApi(): void {
-    this.testingService.testingApi().subscribe((value) => {
-      console.log(value);
-    })
+  gotoImagePage(image: Image): void {
+    this.imageService.storeImageId(image);
+    this.router.navigate(['images', 'detail'], {state: image});
+  }
+
+  canAccessImage(image: Image) {
+    if (image.productLevel === "FREE" || this.securityService.getRole() === "admin")
+      return true;
+
+    if (this.securityService.getSubscriptionLevel() === "PREMIUM") {
+      return true;
+    } else if (this.securityService.getSubscriptionLevel() === "PRO") {
+      return image.productLevel !== "PREMIUM";
+    } else {
+      return image.productLevel === "FREE";
+    }
+  }
+
+  setupPopupData(image: Image) {
+    this.selectedImage = image;
   }
 
   loadImagesData(size: number, page: number, sortBy: string,
@@ -105,6 +127,10 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
   handleLatLongClicked(event: { lat?: number, lng?: number }): void {
     this.latitude = event.lat;
     this.longitude = event.lng;
+  }
+
+  upgradeSubscription(packageLevel: string) {
+    this.router.navigate(['upgrade', packageLevel],);
   }
 
 }

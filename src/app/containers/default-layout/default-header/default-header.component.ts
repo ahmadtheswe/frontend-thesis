@@ -26,7 +26,6 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnDestroy
   }
 
   onLogoutClick(): void {
-    debugger
     if (!this.securityService.isTokenExpired) {
       this.securityService.cleanLocalStorage();
       this.router.navigate(['/login']);
