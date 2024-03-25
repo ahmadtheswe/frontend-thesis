@@ -12,7 +12,7 @@ import {SecurityService} from "../security-service/security.service";
 })
 export class ImageService {
 
-  constructor(private http: HttpClient, private imageService: SecurityService) {
+  constructor(private http: HttpClient, private securityService: SecurityService) {
   }
 
   getImageById(id: string): Observable<DataResponse<Image>> {
@@ -28,7 +28,7 @@ export class ImageService {
       })
     };
 
-    let url = this.imageService.getRole() === "admin" ?
+    let url = this.securityService.getRole() === "admin" ?
       `${environment.rootUrl}/image/v1/admin?size=${size}&page=${page}&sortBy=${sortBy}` :
       `${environment.rootUrl}/image/v1/regular?size=${size}&page=${page}&sortBy=${sortBy}`;
 

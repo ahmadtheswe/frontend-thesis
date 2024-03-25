@@ -83,6 +83,7 @@ export class SecurityService {
     localStorage.removeItem("subscriptionLevel");
     localStorage.removeItem("email");
     localStorage.removeItem("username");
+    localStorage.removeItem("activeOrderId");
   }
 
   register(registerRequest: RegisterRequest): Observable<HttpResponse<DataResponse<string>>> {

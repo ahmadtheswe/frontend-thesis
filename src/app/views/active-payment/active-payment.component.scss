@@ -1,0 +1,19 @@
+.active-payment-container {
+  display: flex;
+  flex-direction: column;
+
+  .btn-group {
+    display: flex;
+    flex-direction: row;
+
+    a {
+      max-width: 100px;
+      margin-left: 20px;
+    }
+
+    button {
+      width: 100px;
+      max-width: 100px;
+    }
+  }
+}

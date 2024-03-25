@@ -59,6 +59,8 @@ import {UploadMenuComponent} from "./views/upload-menu/upload-menu.component";
 import {MapExampleComponent} from './views/map-example/map-example.component';
 import { ImageDetailComponent } from './views/images-menu/image-detail/image-detail.component';
 import { UpgradeComponent } from './views/upgrade/upgrade.component';
+import { ActivePaymentComponent } from './views/active-payment/active-payment.component';
+import { PaymentCallbackComponent } from './views/payment-callback/payment-callback.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -79,7 +81,9 @@ const APP_CONTAINERS = [
     ImagePipe,
     MapExampleComponent,
     ImageDetailComponent,
-    UpgradeComponent],
+    UpgradeComponent,
+    ActivePaymentComponent,
+    PaymentCallbackComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

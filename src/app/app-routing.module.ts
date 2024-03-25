@@ -12,6 +12,8 @@ import {ImagesMenuComponent} from "./views/images-menu/images-menu.component";
 import {MapExampleComponent} from "./views/map-example/map-example.component";
 import {ImageDetailComponent} from "./views/images-menu/image-detail/image-detail.component";
 import {UpgradeComponent} from "./views/upgrade/upgrade.component";
+import {ActivePaymentComponent} from "./views/active-payment/active-payment.component";
+import {PaymentCallbackComponent} from "./views/payment-callback/payment-callback.component";
 
 const routes: Routes = [
   {
@@ -64,6 +66,22 @@ const routes: Routes = [
           title: $localize`Upgrade Subscription`
         },
         canActivate: [AuthGuard]
+      },
+      {
+        path: 'active-payment',
+        component: ActivePaymentComponent,
+        data: {
+          title: `Continue your payment`
+        },
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'payment-callback',
+        component: PaymentCallbackComponent,
+        data: {
+          title: `Your transaction`
+        },
+        // canActivate: [AuthGuard]
       },
       {
         path: 'map-example',
