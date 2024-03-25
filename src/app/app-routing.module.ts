@@ -91,54 +91,54 @@ const routes: Routes = [
         },
         canActivate: [AuthGuard]
       },
-      {
-        path: 'theme',
-        loadChildren: () =>
-          import('./views/theme/theme.module').then((m) => m.ThemeModule),
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'base',
-        loadChildren: () =>
-          import('./views/base/base.module').then((m) => m.BaseModule),
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'buttons',
-        loadChildren: () =>
-          import('./views/buttons/buttons.module').then((m) => m.ButtonsModule),
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'forms',
-        loadChildren: () =>
-          import('./views/forms/forms.module').then((m) => m.CoreUIFormsModule),
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'charts',
-        loadChildren: () =>
-          import('./views/charts/charts.module').then((m) => m.ChartsModule),
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'icons',
-        loadChildren: () =>
-          import('./views/icons/icons.module').then((m) => m.IconsModule),
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'notifications',
-        loadChildren: () =>
-          import('./views/notifications/notifications.module').then((m) => m.NotificationsModule),
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'widgets',
-        loadChildren: () =>
-          import('./views/widgets/widgets.module').then((m) => m.WidgetsModule),
-        canActivate: [AuthGuard]
-      },
+      // {
+      //   path: 'theme',
+      //   loadChildren: () =>
+      //     import('./views/theme/theme.module').then((m) => m.ThemeModule),
+      //   canActivate: [AuthGuard]
+      // },
+      // {
+      //   path: 'base',
+      //   loadChildren: () =>
+      //     import('./views/base/base.module').then((m) => m.BaseModule),
+      //   canActivate: [AuthGuard]
+      // },
+      // {
+      //   path: 'buttons',
+      //   loadChildren: () =>
+      //     import('./views/buttons/buttons.module').then((m) => m.ButtonsModule),
+      //   canActivate: [AuthGuard]
+      // },
+      // {
+      //   path: 'forms',
+      //   loadChildren: () =>
+      //     import('./views/forms/forms.module').then((m) => m.CoreUIFormsModule),
+      //   canActivate: [AuthGuard]
+      // },
+      // {
+      //   path: 'charts',
+      //   loadChildren: () =>
+      //     import('./views/charts/charts.module').then((m) => m.ChartsModule),
+      //   canActivate: [AuthGuard]
+      // },
+      // {
+      //   path: 'icons',
+      //   loadChildren: () =>
+      //     import('./views/icons/icons.module').then((m) => m.IconsModule),
+      //   canActivate: [AuthGuard]
+      // },
+      // {
+      //   path: 'notifications',
+      //   loadChildren: () =>
+      //     import('./views/notifications/notifications.module').then((m) => m.NotificationsModule),
+      //   canActivate: [AuthGuard]
+      // },
+      // {
+      //   path: 'widgets',
+      //   loadChildren: () =>
+      //     import('./views/widgets/widgets.module').then((m) => m.WidgetsModule),
+      //   canActivate: [AuthGuard]
+      // },
       {
         path: 'pages',
         loadChildren: () =>
