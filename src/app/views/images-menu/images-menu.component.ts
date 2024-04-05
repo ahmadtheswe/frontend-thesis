@@ -15,6 +15,9 @@ import {SecurityService} from "../../service/security-service/security.service";
   styleUrls: ['./images-menu.component.scss']
 })
 export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
+
+  images: Image[] = [];
+
   displayedColumns: string[] = ['preview', 'title', 'coordinate', 'bundle', 'view'];
 
   totalItems: number = 0;
@@ -49,6 +52,7 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.loadImagesData(this.pageSize, this.pageIndex, 'id', this.title, this.latitude, this.longitude);
   }
 
 
@@ -84,18 +88,19 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
     this.subscription.add(this.imageService.getImagesPagination(size, page, sortBy, title, latitude, longitude).subscribe({
       next: response => {
         if (response && response.data) {
-          this.dataSource.data = response.data;
-          this.totalItems = response.paginationInfo?.totalItems!;
-          this.pageIndex = response.paginationInfo?.currentPage!;
-          this.pageSize = response.paginationInfo?.pageSize!;
-          // this.paginator.length = this.totalItems;
-          // this.paginator.pageSize = this.pageSize;
-          // this.paginator.pageSizeOptions = this.pageSizeOptions;
-          // this.paginator.pageIndex = this.currentPage;
-
-          this.dataSource.paginator = this.paginator;
-
-          console.log('paginator: ', this.paginator);
+          this.images = response.data;
+          // this.dataSource.data = response.data;
+          // this.totalItems = response.paginationInfo?.totalItems!;
+          // this.pageIndex = response.paginationInfo?.currentPage!;
+          // this.pageSize = response.paginationInfo?.pageSize!;
+          // // this.paginator.length = this.totalItems;
+          // // this.paginator.pageSize = this.pageSize;
+          // // this.paginator.pageSizeOptions = this.pageSizeOptions;
+          // // this.paginator.pageIndex = this.currentPage;
+          //
+          // this.dataSource.paginator = this.paginator;
+          //
+          // console.log('paginator: ', this.paginator);
         }
       },
       error: error => {
@@ -118,7 +123,7 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
 
   onSubmitFilter(): void {
     // Reset the paginator to the first page
-    this.paginator.firstPage();
+    // this.paginator.firstPage();
 
     // Call loadImagesData with the current form values
     this.loadImagesData(this.pageSize, 0, 'id', this.title, this.latitude, this.longitude);

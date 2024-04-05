@@ -39,7 +39,7 @@ import {
   NavModule,
   ProgressModule,
   SharedModule,
-  SidebarModule,
+  SidebarModule, TableModule,
   TabsModule,
   UtilitiesModule,
 } from '@coreui/angular';
@@ -121,7 +121,8 @@ const APP_CONTAINERS = [
     MatInputModule,
     HttpClientModule,
     OAuthModule.forRoot(),
-    ModalModule
+    ModalModule,
+    TableModule
   ],
   providers: [
     {
