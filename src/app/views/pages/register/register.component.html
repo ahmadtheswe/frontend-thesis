@@ -47,8 +47,9 @@
                 <input autoComplete="new-password" cFormControl required placeholder="Repeat password" [type]="'password'" [(ngModel)]="repeatPassword" [ngModelOptions]="{standalone: true}" />
                 <c-form-feedback [valid]="false">Password verification can't be empty!</c-form-feedback>
               </c-input-group>
-              <div class="d-grid">
+              <div class="button-group">
                 <button cButton color="success" type="submit">Create Account</button>
+                <button cButton color="danger" type="button" (click)="backToLogin()">Cancel</button>
               </div>
             </form>
           </c-card-body>
@@ -63,13 +64,13 @@
     (timer)="onTimerChange($event)"
     (visibleChange)="onVisibleChange($event)"
     [visible]="alreadyRegister"
-    [color]="isSuccess? 'primary': 'danger'"
+    [color]="isSuccess? 'light': 'danger'"
   >
     <c-toast-header>
       Registration
     </c-toast-header>
     <c-toast-body>
-      <p>{{ message ? message : [0] }}</p>
+      <p [class]="isSuccess? 'text-light': 'text-dark'">{{ message ? message : [0] }}</p>
     </c-toast-body>
   </c-toast>
 </c-toaster>

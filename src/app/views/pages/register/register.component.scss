@@ -1,0 +1,14 @@
+.button-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  button {
+    width: 150px;
+    color: white;
+  }
+
+  button:first-child {
+    margin-right: 20px;
+  }
+}

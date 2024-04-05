@@ -3,6 +3,7 @@ import {SecurityService} from "../../../service/security-service/security.servic
 import {RegisterRequest} from "../../../service/security-service/security-dto";
 import {Subscription} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -24,7 +25,7 @@ export class RegisterComponent implements OnDestroy {
   visible = true;
   percentage = 0;
 
-  constructor(private securityService: SecurityService, private formBuilder: FormBuilder) {
+  constructor(private securityService: SecurityService, private formBuilder: FormBuilder, private router: Router) {
     this.registerForm = this.formBuilder.group(
       {
         username: ['', [Validators.required]],
@@ -70,6 +71,10 @@ export class RegisterComponent implements OnDestroy {
 
   onTimerChange($event: number) {
     this.percentage = $event * 25;
+  }
+
+  backToLogin(): void {
+    this.router.navigate(["/login"]);
   }
 
 }

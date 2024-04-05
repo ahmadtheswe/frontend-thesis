@@ -28,7 +28,7 @@
                     autoComplete="current-password"
                     cFormControl
                     placeholder="Password"
-                    type="password"
+                    [type]="'password'"
                     [(ngModel)]="loginRequest.password"
                     [ngModelOptions]="{standalone: true}"
                   />
@@ -53,8 +53,7 @@
               <div>
                 <h2>Sign up</h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
+                  Create your account to find amazing map images!
                 </p>
                 <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
                   Register Now!
