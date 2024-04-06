@@ -6,6 +6,8 @@ import {Observable, tap} from "rxjs";
 import {DataResponse} from "../../model/dto/response/DataResponse";
 import {RegisterRequest} from "./security-dto";
 import {ExtendedTokenResponse} from "./ExtendedTokenResponse";
+import {ActiveUsersCount} from "../../model/dto/entity/ActiveUsersCount";
+import {Image} from "../../model/dto/entity/Image";
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +59,10 @@ export class SecurityService {
     return localStorage.getItem("role");
   }
 
+  getUsername() {
+    return localStorage.getItem("username");
+  }
+
   getSubscriptionLevel() {
     return localStorage.getItem("subscriptionLevel");
   }
@@ -88,5 +94,17 @@ export class SecurityService {
 
   register(registerRequest: RegisterRequest): Observable<HttpResponse<DataResponse<string>>> {
     return this.http.post<DataResponse<string>>(this.prefixUrl + '/registration', registerRequest, { observe: 'response' });
+  }
+
+
+  getActiveUsersCount(): Observable<DataResponse<ActiveUsersCount>> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
+      })
+    };
+
+    return this.http.get<DataResponse<ActiveUsersCount>>(`${environment.securityUrl}/admin/active-users`, httpOptions);
   }
 }

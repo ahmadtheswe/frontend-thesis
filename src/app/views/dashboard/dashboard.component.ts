@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 
-import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
+import {DashboardChartsData, IChartProps} from './dashboard-charts-data';
+import {PaymentService} from "../../service/payment-service/payment.service";
+import {SecurityService} from "../../service/security-service/security.service";
+import {Subscription} from "rxjs";
+import {DatePipe} from "@angular/common";
 
 interface IUser {
   name: string;
@@ -21,8 +25,46 @@ interface IUser {
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
-  constructor(private chartsData: DashboardChartsData) {
+export class DashboardComponent implements OnInit, OnDestroy {
+
+  isAdmin: boolean = false;
+
+  activeSubscription: string = "";
+  subscriptionValidUntil: string | null = "";
+  username: string | null = "";
+  activeUsersCount: number | undefined = 0;
+
+  subscription: Subscription = new Subscription();
+
+  constructor(private chartsData: DashboardChartsData, private paymentService: PaymentService, private securityService: SecurityService, private datePipe: DatePipe) {
+  }
+
+  ngOnInit(): void {
+    this.isAdmin = this.securityService.getRole() == 'admin';
+
+    this.username = this.securityService.getUsername();
+
+    if (!this.isAdmin) {
+      this.subscription.add(this.paymentService.checkActivePackage().subscribe({
+        next: data => {
+          this.activeSubscription = data.activePackage;
+          const parsedDate = new Date(data.activeUntil);
+          this.subscriptionValidUntil = this.datePipe.transform(parsedDate, 'MMMM d, yyyy HH:mm');
+        }
+      }))
+    } else {
+      this.subscription.add(this.securityService.getActiveUsersCount().subscribe({
+        next: data => {
+          this.activeUsersCount = data.data?.activeUsers
+        }
+      }))
+    }
+
+    this.initCharts();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public users: IUser[] = [
@@ -111,16 +153,12 @@ export class DashboardComponent implements OnInit {
     trafficRadio: new UntypedFormControl('Month')
   });
 
-  ngOnInit(): void {
-    this.initCharts();
-  }
-
   initCharts(): void {
     this.mainChart = this.chartsData.mainChart;
   }
 
   setTrafficPeriod(value: string): void {
-    this.trafficRadioGroup.setValue({ trafficRadio: value });
+    this.trafficRadioGroup.setValue({trafficRadio: value});
     this.chartsData.initMainChart(value);
     this.initCharts();
   }

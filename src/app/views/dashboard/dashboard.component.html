@@ -1,3 +1,38 @@
+<ng-container class="title">
+  <h2>Hi, {{ username }}</h2>
+</ng-container>
+
+<ng-container *ngIf="isAdmin">
+  <c-card class="subscription-card">
+    <ul cListGroup [flush]="true">
+      <li cListGroupItem class="label-span">Users Recap</li>
+      <li cListGroupItem>
+        <span class="label-span">Active Users :</span>
+        <c-badge color="info">{{ activeUsersCount }}</c-badge>
+      </li>
+    </ul>
+  </c-card>
+</ng-container>
+
+<ng-container *ngIf="!isAdmin">
+  <c-card class="subscription-card">
+    <ul cListGroup [flush]="true">
+      <li cListGroupItem class="label-span">Your Subscription</li>
+      <li cListGroupItem>
+        <span class="label-span">Package :</span>
+        <c-badge *ngIf="activeSubscription === 'FREE'" color="info">{{ activeSubscription }}</c-badge>
+        <c-badge *ngIf="activeSubscription === 'PRO'" color="success">{{ activeSubscription }}</c-badge>
+        <c-badge *ngIf="activeSubscription === 'PREMIUM'" color="primary">{{ activeSubscription }}</c-badge>
+      </li>
+      <li cListGroupItem>
+        <span class="label-span">Valid Until :</span>
+        <span *ngIf="activeSubscription === 'FREE'"> - </span>
+        <span *ngIf="activeSubscription !== 'FREE'"> {{ subscriptionValidUntil }} </span>
+      </li>
+    </ul>
+  </c-card>
+</ng-container>
+
 <!--<app-widgets-dropdown></app-widgets-dropdown>-->
 <!--<c-card class="mb-4">-->
 <!--  <c-card-body>-->

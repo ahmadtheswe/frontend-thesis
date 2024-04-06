@@ -37,4 +37,5 @@ export interface PaymentCheckResponse {
 
 export interface ActivePackageResponse {
   activePackage: string;
+  activeUntil: string;
 }

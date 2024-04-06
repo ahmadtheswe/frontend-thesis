@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import {
-  AvatarModule,
+  AvatarModule, BadgeModule,
   ButtonGroupModule,
   ButtonModule,
   CardModule,
   FormModule,
-  GridModule,
+  GridModule, ListGroupModule,
   NavModule,
   ProgressModule,
   TableModule,
@@ -40,9 +40,12 @@ import { WidgetsModule } from '../widgets/widgets.module';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    WidgetsModule
+    WidgetsModule,
+    ListGroupModule,
+    BadgeModule
   ],
-  declarations: [DashboardComponent]
+  declarations: [DashboardComponent],
+  providers: [DatePipe]
 })
 export class DashboardModule {
 }
