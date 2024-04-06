@@ -19,7 +19,7 @@ export class ImageService {
     return this.http.get<DataResponse<Image>>(`${environment.rootUrl}/image/v1?id=${id}`);
   }
 
-  getImagesPagination(size: number, page: number, sortBy: string, title?: string, latitude?: number, longitude?: number)
+  getImagesPagination(size: number, page: number, sortBy: string, title?: string, latitude?: number, longitude?: number, radius?: number)
     : Observable<PaginationResponse<Image>> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -34,6 +34,9 @@ export class ImageService {
 
     if (title) {
       url += `&title=${encodeURIComponent(title)}`;
+    }
+    if (radius) {
+      url += `&radius=${encodeURIComponent(radius)}`;
     }
     if (latitude !== null && latitude !== undefined) {
       url += `&latitude=${latitude}`;

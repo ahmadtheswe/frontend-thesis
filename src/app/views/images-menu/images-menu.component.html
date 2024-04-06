@@ -7,14 +7,27 @@
       <c-card-body>
         <form cRow (ngSubmit)="onSubmitFilter()">
           <div class="mb-3">
-            <label cLabel class="visually-hidden" for="inlineFormInputGroupUsername">
+            <label cLabel class="visually-hidden" for="inlineFormInputGroupImageTitle">
               Image Title
             </label>
             <c-input-group>
               <span cInputGroupText>Image Title</span>
-              <input cFormControl id="inlineFormInputGroupUsername"
+              <input cFormControl id="inlineFormInputGroupImageTitle"
                      [(ngModel)]="title"
                      placeholder="Input image title here" name="title"
+              />
+            </c-input-group>
+          </div>
+          <div class="mb-3">
+            <label cLabel class="visually-hidden" for="inlineFormInputGroupRadiusKM">
+              Radius (KM)
+            </label>
+            <c-input-group>
+              <span cInputGroupText>Radius (KM)</span>
+              <input cFormControl id="inlineFormInputGroupRadiusKM"
+                     [(ngModel)]="radius"
+                     [type]="'number'"
+                     placeholder="Input radius search (in KM) here" name="radius"
               />
             </c-input-group>
           </div>

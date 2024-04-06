@@ -40,7 +40,7 @@ import {
   ProgressModule,
   SharedModule,
   SidebarModule, TableModule,
-  TabsModule,
+  TabsModule, ToastModule,
   UtilitiesModule,
 } from '@coreui/angular';
 
@@ -122,7 +122,8 @@ const APP_CONTAINERS = [
     HttpClientModule,
     OAuthModule.forRoot(),
     ModalModule,
-    TableModule
+    TableModule,
+    ToastModule
   ],
   providers: [
     {

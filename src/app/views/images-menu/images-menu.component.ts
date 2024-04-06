@@ -24,6 +24,7 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
   pageSize: number = 5;
   pageIndex: number = 0;
   title?: string;
+  radius?: number;
   latitude?: number;
   longitude?: number;
 
@@ -52,13 +53,13 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadImagesData(this.pageSize, this.pageIndex, 'id', this.title, this.latitude, this.longitude);
+    this.loadImagesData(this.pageSize, this.pageIndex, 'id', this.title, this.latitude, this.longitude, this.radius);
   }
 
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
-    this.loadImagesData(this.pageSize, this.pageIndex, 'id', this.title, this.latitude, this.longitude);
+    this.loadImagesData(this.pageSize, this.pageIndex, 'id', this.title, this.latitude, this.longitude, this.radius);
   }
 
   gotoImagePage(image: Image): void {
@@ -84,8 +85,8 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   loadImagesData(size: number, page: number, sortBy: string,
-                 title?: string, latitude?: number, longitude?: number): void {
-    this.subscription.add(this.imageService.getImagesPagination(size, page, sortBy, title, latitude, longitude).subscribe({
+                 title?: string, latitude?: number, longitude?: number, radius?: number): void {
+    this.subscription.add(this.imageService.getImagesPagination(size, page, sortBy, title, latitude, longitude, radius).subscribe({
       next: response => {
         if (response && response.data) {
           this.images = response.data;
@@ -118,7 +119,7 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
     console.log('Current page:', this.pageIndex);
     const sortBy = 'id'; // You can adjust this as needed
 
-    this.loadImagesData(this.pageSize, this.pageIndex, sortBy, this.title, this.latitude, this.longitude);
+    this.loadImagesData(this.pageSize, this.pageIndex, sortBy, this.title, this.latitude, this.longitude, this.radius);
   }
 
   onSubmitFilter(): void {
@@ -126,7 +127,7 @@ export class ImagesMenuComponent implements AfterViewInit, OnInit, OnDestroy {
     // this.paginator.firstPage();
 
     // Call loadImagesData with the current form values
-    this.loadImagesData(this.pageSize, 0, 'id', this.title, this.latitude, this.longitude);
+    this.loadImagesData(this.pageSize, 0, 'id', this.title, this.latitude, this.longitude, this.radius);
   }
 
   handleLatLongClicked(event: { lat?: number, lng?: number }): void {
