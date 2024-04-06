@@ -43,14 +43,12 @@ export class UpgradeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    debugger;
     this.subscription.add(this.paymentService.checkOnProgressPayment().subscribe({
       next: onProgressPayment => {
         localStorage.setItem("activeOrderId", onProgressPayment.id);
         this.router.navigate(['/active-payment']);
       },
       error: error => {
-        debugger;
         this.activatedRoute.params.subscribe({
           next: params => {
             this.packageLevel = params['package'];
@@ -58,7 +56,6 @@ export class UpgradeComponent implements OnInit, OnDestroy {
 
             this.paymentService.checkActivePackage().subscribe({
               next: activePackage => {
-                debugger;
                 localStorage.setItem('subscriptionLevel', activePackage.activePackage);
                 if (this.securityService.getSubscriptionLevel() === "PREMIUM") {
                   this.router.navigate(['images']);
