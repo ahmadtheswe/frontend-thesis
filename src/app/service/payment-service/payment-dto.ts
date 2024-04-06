@@ -39,3 +39,8 @@ export interface ActivePackageResponse {
   activePackage: string;
   activeUntil: string;
 }
+
+export interface PackageCountResponse {
+  packageName: string;
+  subscriptionTotal: number;
+}

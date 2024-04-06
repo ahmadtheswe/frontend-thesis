@@ -3,12 +3,14 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {
   ActivePackageResponse,
-  OnProgressPaymentResponse,
+  OnProgressPaymentResponse, PackageCountResponse,
   PaymentCheckResponse,
   PaymentRequest,
   PaymentResponse
 } from "./payment-dto";
 import {Observable} from "rxjs";
+import {DataResponse} from "../../model/dto/response/DataResponse";
+import {ActiveUsersCount} from "../../model/dto/entity/ActiveUsersCount";
 
 @Injectable({
   providedIn: 'root'
@@ -71,5 +73,16 @@ export class PaymentService {
     };
 
     return this.http.get(`${environment.paymentUrl}/cancel`, httpOptions);
+  }
+
+  getActivePaidSubscriptionCount(): Observable<PackageCountResponse[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
+      })
+    };
+
+    return this.http.get<PackageCountResponse[]>(`${environment.paymentUrl}/package-count`, httpOptions);
   }
 }
