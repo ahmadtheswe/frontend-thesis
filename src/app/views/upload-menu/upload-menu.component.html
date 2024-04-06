@@ -8,20 +8,20 @@
         <form cForm (ngSubmit)="onUpload()">
           <div class="mb-3">
             <label cLabel for="formImageFile">Image to upload</label>
-            <input cFormControl id="formImageFile" type="file" (change)="onImageFileSelected($event)" name="file"/>
+            <input cFormControl id="formImageFile" [type]="'file'" (change)="onImageFileSelected($event)" name="file"/>
           </div>
 
           <div class="mb-3">
             <label cLabel for="formThumbnailFile">Thumbnail to upload</label>
-            <input cFormControl id="formThumbnailFile" type="file" (change)="onThumbnailFileSelected($event)" name="file"/>
+            <input cFormControl id="formThumbnailFile" [type]="'file'" (change)="onThumbnailFileSelected($event)" name="file"/>
           </div>
 
           <div class="mb-3">
             <label cLabel for="titleFormControlInput">Image title</label>
             <input cFormControl
                    id="titleFormControlInput"
-                   placeholder="Input title here"
-                   type="text"
+                   [placeholder]="'Input title here'"
+                   [type]="'text'"
                    [(ngModel)]="title"
                    name="title"
             />
@@ -38,7 +38,7 @@
             <textarea cFormControl
                       id="descriptionFormControlTextarea"
                       rows="3"
-                      placeholder="Input description here"></textarea>
+                      [placeholder]="'Input description here'"></textarea>
           </div>
           <div class="mb-3">
             <label cLabel>Visibility</label>
@@ -48,7 +48,7 @@
               <label cFormCheckLabel>Public</label>
             </c-form-check>
             <c-form-check>
-              <input cFormCheckInput id="isPublicFalse" type="radio" [valid]="false" [(ngModel)]="isPublic"
+              <input cFormCheckInput id="isPublicFalse" type="radio" [value]="false" [(ngModel)]="isPublic"
                      name="visibilityFormControlRadioButton"/>
               <label cFormCheckLabel>Private</label>
             </c-form-check>
@@ -80,3 +80,19 @@
     </c-card>
   </c-col>
 </c-row>
+
+<c-toaster [placement]="position" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="alreadyUpload"
+    [color]="isUploadSuccess? 'success': 'danger'"
+  >
+    <c-toast-header class="text-dark">
+      Upload Image
+    </c-toast-header>
+    <c-toast-body>
+      <p [class]="isUploadSuccess? 'text-dark': 'text-white'">{{ uploadMessage }}</p>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>

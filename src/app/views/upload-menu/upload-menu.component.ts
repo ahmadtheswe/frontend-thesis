@@ -12,9 +12,17 @@ export class UploadMenuComponent implements OnInit {
   public thumbnailFileToUploadFile: File | null = null;
   public title: string = "";
   public productLevel: string = "FREE";
-  public isPublic: boolean = false;
+  public isPublic: boolean = true;
   public latitude?: number;
   public longitude?: number;
+
+
+  alreadyUpload: boolean = false;
+  isUploadSuccess: boolean = false;
+  uploadMessage: string = "";
+  percentage = 0;
+
+  position = 'top-end';
 
   constructor(private imageService: ImageService) {
   }
@@ -44,9 +52,31 @@ export class UploadMenuComponent implements OnInit {
       this.latitude!,
       this.longitude!,
       this.productLevel)
-      .subscribe(response => {
-        console.log(response);
+      .subscribe({
+        next: value => {
+          this.isUploadSuccess = true;
+          this.uploadMessage = "Upload success!";
+          this.toggleToast();
+        },
+        error: err => {
+          this.isUploadSuccess = false;
+          this.uploadMessage = "Upload success!";
+          this.toggleToast();
+        }
       })
+  }
+
+  toggleToast() {
+    this.alreadyUpload = !this.alreadyUpload;
+  }
+
+  onVisibleChange($event: boolean) {
+    this.alreadyUpload = $event;
+    this.percentage = !this.alreadyUpload ? 0 : this.percentage;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 25;
   }
 
 }
