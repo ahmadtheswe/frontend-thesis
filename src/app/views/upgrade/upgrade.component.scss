@@ -2,6 +2,10 @@
   display: flex;
   flex-direction: row;
 
+  c-card {
+    width: 350px;
+  }
+
   c-card:first-child {
     margin-right: 20px;
   }
