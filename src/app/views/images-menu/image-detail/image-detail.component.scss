@@ -3,15 +3,43 @@
   flex-direction: row;
 
   .thumbnail-container {
-    display: flex;
-    flex-direction: column;
+    position: relative;
 
     .image-preview {
       width: 500px;
     }
   }
 
-  .download-container {
+  .thumbnail-container::after {
+    position: absolute;
+    bottom: 20%;
+    //right: 50%;
+    left: 20%;
+    //transform: translate(-50%, -50%);
+    content: "THUMBNAIL (EXAMPLE IMAGE)";
+    font-size: 40px;
+  }
 
+  .image-info-container {
+    font-size: large;
+    width: 300px;
+
+    table {
+      .colon {
+        width: 40px;
+      }
+    }
+  }
+}
+
+.download-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+
+  button {
+    width: fit-content;
   }
 }

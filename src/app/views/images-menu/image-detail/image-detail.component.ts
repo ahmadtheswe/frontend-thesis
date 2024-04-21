@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ImageService} from "../../../service/image-service/image.service";
 import {Subscription} from "rxjs";
+import {Image} from "../../../model/dto/entity/Image";
 
 @Component({
   selector: 'app-image-detail',
@@ -11,6 +12,7 @@ export class ImageDetailComponent implements OnInit, OnDestroy {
 
   imageId: string = "";
   subscription: Subscription = new Subscription();
+  image: Image | undefined = new Image();
 
   constructor(private imageService: ImageService) {
 
@@ -18,7 +20,11 @@ export class ImageDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.imageId = this.imageService.getImageId();
-    console.log(this.imageId);
+    this.subscription.add(this.imageService.getPublicImageById(this.imageId).subscribe({
+      next: data => {
+        this.image = data.data;
+      }
+    }));
   }
 
   ngOnDestroy(): void {

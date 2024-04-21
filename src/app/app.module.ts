@@ -61,6 +61,7 @@ import { ImageDetailComponent } from './views/images-menu/image-detail/image-det
 import { UpgradeComponent } from './views/upgrade/upgrade.component';
 import { ActivePaymentComponent } from './views/active-payment/active-payment.component';
 import { PaymentCallbackComponent } from './views/payment-callback/payment-callback.component';
+import { YourOrderComponent } from './views/your-order/your-order.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -83,7 +84,8 @@ const APP_CONTAINERS = [
     ImageDetailComponent,
     UpgradeComponent,
     ActivePaymentComponent,
-    PaymentCallbackComponent],
+    PaymentCallbackComponent,
+    YourOrderComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

@@ -96,65 +96,13 @@
                 </td>
               </tr>
             </ng-container>
+            <ng-container *ngIf="images.length === 0">
+              <div class="empty-search">
+                <span>No data found, <button class="btn btn-primary">Pre-order?</button></span>
+              </div>
+            </ng-container>
             </tbody>
           </table>
-          <!--          <table mat-table [dataSource]="dataSource" matSort>-->
-          <!--            &lt;!&ndash; Name Column &ndash;&gt;-->
-          <!--            <ng-container matColumnDef="preview">-->
-          <!--              <th mat-header-cell *matHeaderCellDef mat-sort-header> Preview</th>-->
-          <!--              <td mat-cell *matCellDef="let row">-->
-          <!--                <img class="image-preview" [src]="row.id | imageThumbnail | async" [alt]="row.id">-->
-          <!--              </td>-->
-          <!--            </ng-container>-->
-
-          <!--            &lt;!&ndash; Progress Column &ndash;&gt;-->
-          <!--            <ng-container matColumnDef="title">-->
-          <!--              <th mat-header-cell *matHeaderCellDef mat-sort-header> Title</th>-->
-          <!--              <td mat-cell *matCellDef="let row"> {{ row.title }}</td>-->
-          <!--            </ng-container>-->
-
-          <!--            &lt;!&ndash; Fruit Column &ndash;&gt;-->
-          <!--            <ng-container matColumnDef="coordinate">-->
-          <!--              <th mat-header-cell *matHeaderCellDef mat-sort-header> Coordinate</th>-->
-          <!--              <td mat-cell *matCellDef="let row"> ({{ row.latitude }} , {{ row.longitude }})</td>-->
-          <!--            </ng-container>-->
-
-          <!--            &lt;!&ndash; Fruit Column &ndash;&gt;-->
-          <!--            <ng-container matColumnDef="bundle">-->
-          <!--              <th mat-header-cell *matHeaderCellDef mat-sort-header> Bundle</th>-->
-          <!--              <td mat-cell *matCellDef="let row">-->
-          <!--                <c-badge *ngIf="row.productLevel === 'FREE'" color="info">{{ row.productLevel }}</c-badge>-->
-          <!--                <c-badge *ngIf="row.productLevel === 'PRO'" color="success">{{ row.productLevel }}</c-badge>-->
-          <!--                <c-badge *ngIf="row.productLevel === 'PREMIUM'" color="primary">{{ row.productLevel }}</c-badge>-->
-          <!--              </td>-->
-          <!--            </ng-container>-->
-
-          <!--            <ng-container matColumnDef="view">-->
-          <!--              <th mat-header-cell *matHeaderCellDef mat-sort-header> View Total</th>-->
-          <!--              <td mat-cell *matCellDef="let row">-->
-          <!--                <button class="btn btn-primary" *ngIf="canAccessImage(row)" (click)="gotoImagePage(row)">View</button>-->
-          <!--                <button class="btn btn-primary" *ngIf="!canAccessImage(row)"-->
-          <!--                        [cModalToggle]="verticallyCenteredModal.id" (click)="setupPopupData(row)">Upgrade subscription!-->
-          <!--                </button>-->
-          <!--              </td>-->
-          <!--            </ng-container>-->
-
-          <!--            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-          <!--            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
-
-          <!--            &lt;!&ndash; Row shown when there is no matching data. &ndash;&gt;-->
-          <!--          </table>-->
-
-          <!--          <mat-paginator-->
-          <!--            #paginator-->
-          <!--            [pageSizeOptions]="pageSizeOptions"-->
-          <!--            [pageIndex]="pageIndex"-->
-          <!--            [pageSize]="pageSize"-->
-          <!--            [length]="totalItems"-->
-          <!--            [showFirstLastButtons]="true"-->
-          <!--            (page)="onPageChange($event)"-->
-          <!--            aria-label="Select page of users">-->
-          <!--          </mat-paginator>-->
         </div>
       </c-card-body>
     </c-card>

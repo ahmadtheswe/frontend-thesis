@@ -15,8 +15,15 @@ export class ImageService {
   constructor(private http: HttpClient, private securityService: SecurityService) {
   }
 
-  getImageById(id: string): Observable<DataResponse<Image>> {
-    return this.http.get<DataResponse<Image>>(`${environment.rootUrl}/image/v1?id=${id}`);
+  getPublicImageById(id: string): Observable<DataResponse<Image>> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
+      })
+    };
+
+    return this.http.get<DataResponse<Image>>(`${environment.rootUrl}/image/v1/regular/detail?id=${id}`, httpOptions);
   }
 
   getImagesPagination(size: number, page: number, sortBy: string, title?: string, latitude?: number, longitude?: number, radius?: number)

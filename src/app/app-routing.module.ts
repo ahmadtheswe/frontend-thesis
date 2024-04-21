@@ -14,6 +14,7 @@ import {ImageDetailComponent} from "./views/images-menu/image-detail/image-detai
 import {UpgradeComponent} from "./views/upgrade/upgrade.component";
 import {ActivePaymentComponent} from "./views/active-payment/active-payment.component";
 import {PaymentCallbackComponent} from "./views/payment-callback/payment-callback.component";
+import {YourOrderComponent} from "./views/your-order/your-order.component";
 
 const routes: Routes = [
   {
@@ -90,6 +91,14 @@ const routes: Routes = [
           title: $localize`Map Example`
         },
         canActivate: [AuthGuard]
+      },
+      {
+        path: 'your-orders',
+        component: YourOrderComponent,
+        data: {
+          title: $localize`Your Orders`
+        },
+        canActivate: [AuthGuard],
       },
       // {
       //   path: 'theme',
