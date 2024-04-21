@@ -22,6 +22,12 @@ export const navItems: ExtendedINavData[] = [
     iconComponent: { name: 'cil-speedometer' }
   },
   {
+    name: 'Your Orders',
+    url: '/your-orders',
+    iconComponent: { name: 'cil-speedometer' },
+    isNonAdminRequired: true
+  },
+  {
     name: 'Map Example',
     url: '/map-example',
     iconComponent: { name: 'cil-speedometer' },

@@ -18,9 +18,9 @@ export class DefaultLayoutComponent {
 
   constructor(private securityService: SecurityService) {
     if (this.securityService.getRole() !== 'admin') {
-      this.navItems = navItems.filter(value => !value.isAdminRequired );
+      this.navItems = navItems.filter(value => !value.isAdminRequired || value.isNonAdminRequired );
     } else {
-      this.navItems = navItems;
+      this.navItems = navItems.filter(value => value.isAdminRequired || !value.isNonAdminRequired );
     }
   }
 }
