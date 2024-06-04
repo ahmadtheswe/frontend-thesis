@@ -1,1 +1,42 @@
-<p>your-order works!</p>
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Images</strong>
+      </c-card-header>
+      <c-card-body>
+        <div class="create-new-order-ctnr">
+          <button (click)="onCreateNewOrderClick()">Create New Order</button>
+        </div>
+        <div class="mat-elevation-z8">
+          <table cTable>
+            <thead>
+            <tr>
+              <th scope="col">Center Coordinate</th>
+              <th scope="col">Minimum Longitude</th>
+              <th scope="col">Minimum Latitude</th>
+              <th scope="col">Maximum Longitude</th>
+              <th scope="col">Maximum Latitude</th>
+              <th scope="col">Requested At</th>
+              <th scope="col">Delivered At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container>
+              <tr *ngFor="let preOrder of preOrderList">
+                <td>({{preOrder.centerCoordinateResponse?.latitude}}, {{preOrder.centerCoordinateResponse?.longitude}})</td>
+                <td>{{preOrder.bboxResponse?.minLongitude}}</td>
+                <td>{{preOrder.bboxResponse?.minLatitude}}</td>
+                <td>{{preOrder.bboxResponse?.maxLongitude}}</td>
+                <td>{{preOrder.bboxResponse?.maxLatitude}}</td>
+                <td>{{preOrder.createdAt}}</td>
+                <td>{{preOrder.deliveredAt}}</td>
+              </tr>
+            </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

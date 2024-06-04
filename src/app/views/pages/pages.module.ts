@@ -8,7 +8,7 @@ import { Page404Component } from './page404/page404.component';
 import { Page500Component } from './page500/page500.component';
 import {AlertModule, ButtonModule, CardModule, FormModule, GridModule, ToastModule} from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -28,7 +28,8 @@ import {FormsModule} from "@angular/forms";
     FormModule,
     FormsModule,
     AlertModule,
-    ToastModule
+    ToastModule,
+    ReactiveFormsModule
   ]
 })
 export class PagesModule {

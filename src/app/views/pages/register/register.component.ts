@@ -2,7 +2,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {SecurityService} from "../../../service/security-service/security.service";
 import {RegisterRequest} from "../../../service/security-service/security-dto";
 import {Subscription} from "rxjs";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 
 @Component({
@@ -32,8 +32,11 @@ export class RegisterComponent implements OnDestroy {
         email: ['', [Validators.required]],
         firstName: ['', [Validators.required]],
         lastName: ['', [Validators.required]],
-        password: ['', [Validators.required]],
+        password: ['', [Validators.required, this.passwordStrengthValidator]],
         repeatPassword: ['', [Validators.required]],
+      },
+      {
+        validators: this.passwordMatchValidator
       }
     )
   }
@@ -75,6 +78,37 @@ export class RegisterComponent implements OnDestroy {
 
   backToLogin(): void {
     this.router.navigate(["/login"]);
+  }
+
+  passwordStrengthValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const value = control.value;
+    if (!value) {
+      return null;
+    }
+
+    const hasUpperCase = /[A-Z]/.test(value);
+    const hasLowerCase = /[a-z]/.test(value);
+    const hasNumeric = /[0-9]/.test(value);
+    const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value);
+    const isLengthValid = value.length >= 8;
+
+    const passwordValid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecialChar && isLengthValid;
+
+    // Step 2: Return the result
+    return passwordValid ? null : {weakPassword: true};
+  }
+
+  passwordMatchValidator(formGroup: FormGroup): { [key: string]: boolean } | null {
+    const password = formGroup.get('password')?.value;
+    const repeatPassword = formGroup.get('repeatPassword')?.value;
+
+    // Step 2: Compare the values
+    if (password !== repeatPassword) {
+      // Step 3: Return the result
+      return {passwordMismatch: true};
+    }
+
+    return null;
   }
 
 }

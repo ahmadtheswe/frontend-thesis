@@ -15,6 +15,7 @@ import {UpgradeComponent} from "./views/upgrade/upgrade.component";
 import {ActivePaymentComponent} from "./views/active-payment/active-payment.component";
 import {PaymentCallbackComponent} from "./views/payment-callback/payment-callback.component";
 import {YourOrderComponent} from "./views/your-order/your-order.component";
+import {CreateOrderComponent} from "./views/create-order/create-order.component";
 
 const routes: Routes = [
   {
@@ -97,6 +98,14 @@ const routes: Routes = [
         component: YourOrderComponent,
         data: {
           title: $localize`Your Orders`
+        },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'create-order',
+        component: CreateOrderComponent,
+        data: {
+          title: $localize`Create Order`
         },
         canActivate: [AuthGuard],
       },

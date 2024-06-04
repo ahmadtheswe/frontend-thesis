@@ -1,0 +1,66 @@
+<div class="mb-3">
+  <div class="selection-radio-group">
+    <div class="options">
+      <input cFormCheckInput id="selectWithMapTrue" type="radio" [value]="true" [(ngModel)]="selectWithMap"
+             (change)="onSelectWithMapChange()"/>
+      <label cFormCheckLabel>Select with map</label>
+    </div>
+    <div class="options">
+      <input cFormCheckInput id="selectWithMapFalse" type="radio" [value]="false" [(ngModel)]="selectWithMap"
+             (change)="onSelectWithMapChange()"/>
+      <label cFormCheckLabel>Select with coordinate input</label>
+    </div>
+  </div>
+</div>
+<form>
+  <ng-container *ngIf="selectWithMap">
+    <div [id]="mapId" class="map"></div>
+    <button (click)="startDrawing()">Start Drawing Rectangle</button>
+  </ng-container>
+
+  <ng-container *ngIf="!selectWithMap">
+    <c-row>
+      <c-col [xs]>
+        <c-col [xs]>
+          <label cLabel for="min-longitude">Min Longitude</label>
+          <input id="min-longitude" aria-label="Min Longitude" [(ngModel)]="minLon"
+                 (ngModelChange)="updateValueOfBBox()"
+                 cFormControl placeholder="Min Longitude"/>
+        </c-col>
+        <label cLabel for="min-latitude">Min Latitude</label>
+        <input id="min-latitude" aria-label="Min Latitude" [(ngModel)]="minLat" (ngModelChange)="updateValueOfBBox()"
+               cFormControl placeholder="Max Latitude"/>
+      </c-col>
+    </c-row>
+
+    <c-row>
+      <c-col [xs]>
+        <c-col [xs]>
+          <label cLabel for="max-longitude">Max Longitude</label>
+          <input id="max-longitude" aria-label="Max Longitude" [(ngModel)]="maxLon"
+                 (ngModelChange)="updateValueOfBBox()"
+                 cFormControl placeholder="Min Longitude"/>
+        </c-col>
+        <label cLabel for="max-latitude">Max Latitude</label>
+        <input id="max-latitude" aria-label="Max Latitude" [(ngModel)]="maxLat" (ngModelChange)="updateValueOfBBox()"
+               cFormControl placeholder="Max Latitude"/>
+      </c-col>
+    </c-row>
+  </ng-container>
+
+  <ng-container *ngIf="bboxCoordinates">
+    <div>
+      <p>Bbox Coordinates:</p>
+      <p>Min Longitude: {{ bboxCoordinates[0] }}</p>
+      <p>Min Latitude: {{ bboxCoordinates[1] }}</p>
+      <p>Max Longitude: {{ bboxCoordinates[2] }}</p>
+      <p>Max Latitude: {{ bboxCoordinates[3] }}</p>
+      <p>Image size : {{ xPixel }}px x {{ yPixel }}px</p>
+      <p>Area (in KM sqrt) : {{ areaInKm }} kmsqrt</p>
+    </div>
+  </ng-container>
+
+  <div>
+    <button (click)="saveRequest()">Save Request</button>
+  </div>
+</form>

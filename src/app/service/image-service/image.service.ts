@@ -6,6 +6,8 @@ import {DataResponse} from "../../model/dto/response/DataResponse";
 import {Image} from "../../model/dto/entity/Image";
 import {PaginationResponse} from "../../model/dto/response/PaginationResponse";
 import {SecurityService} from "../security-service/security.service";
+import {BBox} from "../../model/dto/entity/BBox";
+import {PreOrderResponse} from "../../model/dto/response/PreOrderResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -108,5 +110,25 @@ export class ImageService {
       responseType: 'blob',
       headers: httpOptions.headers
     });
+  }
+
+  requestPreOrder(bBoxRequest: BBox, imageSizeRequest: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
+      })
+    };
+
+    return this.http.post<DataResponse<any>>(`${environment.rootUrl}/image/v1/regular/pre-order`, {bBox: bBoxRequest, imageSize: imageSizeRequest}, httpOptions);
+  }
+
+  getPreOrder() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
+      })
+    };
+
+    return this.http.get<DataResponse<PreOrderResponse[]>>(`${environment.rootUrl}/image/v1/regular/pre-order`, httpOptions);
   }
 }
