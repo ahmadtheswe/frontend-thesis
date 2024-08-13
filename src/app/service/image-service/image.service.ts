@@ -8,6 +8,7 @@ import {PaginationResponse} from "../../model/dto/response/PaginationResponse";
 import {SecurityService} from "../security-service/security.service";
 import {BBox} from "../../model/dto/entity/BBox";
 import {PreOrderResponse} from "../../model/dto/response/PreOrderResponse";
+import {PreOrderChargeResponse} from "../../model/dto/response/PreOrderChargeResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -112,17 +113,17 @@ export class ImageService {
     });
   }
 
-  requestPreOrder(bBoxRequest: BBox, imageSizeRequest: number) {
+  requestPreOrder(bBoxRequest: BBox, imageSizeRequest: number, probeType?: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
       })
     };
 
-    return this.http.post<DataResponse<any>>(`${environment.rootUrl}/image/v1/regular/pre-order`, {bBox: bBoxRequest, imageSize: imageSizeRequest}, httpOptions);
+    return this.http.post<DataResponse<PreOrderChargeResponse>>(`${environment.rootUrl}/image/v1/regular/pre-order`, {bBox: bBoxRequest, imageSize: imageSizeRequest, probeType: probeType}, httpOptions);
   }
 
-  getPreOrder() {
+  getPreOrderList() {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
@@ -130,5 +131,28 @@ export class ImageService {
     };
 
     return this.http.get<DataResponse<PreOrderResponse[]>>(`${environment.rootUrl}/image/v1/regular/pre-order`, httpOptions);
+  }
+
+  getPreOrderById(id: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
+      })
+    };
+
+    return this.http.get<DataResponse<PreOrderResponse>>(`${environment.rootUrl}/image/v1/regular/pre-order/detail?id=${id}`, httpOptions);
+  }
+
+  preorderDownloadImage(imageId: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}` || '',
+      })
+    };
+
+    return this.http.get(`${environment.rootUrl}/image/v1/regular/pre-order/view?id=${imageId}`, {
+      responseType: 'blob',
+      headers: httpOptions.headers
+    });
   }
 }

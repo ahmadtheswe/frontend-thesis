@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 
 import {ClassToggleService, HeaderComponent} from '@coreui/angular';
 import {Subscription} from "rxjs";
@@ -8,8 +8,9 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-default-header',
   templateUrl: './default-header.component.html',
+  styleUrls: ['./default-header.component.scss']
 })
-export class DefaultHeaderComponent extends HeaderComponent implements OnDestroy {
+export class DefaultHeaderComponent extends HeaderComponent implements OnDestroy, OnInit {
 
   @Input() sidebarId: string = "sidebar";
   private subscription: Subscription = new Subscription();
@@ -18,11 +19,17 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnDestroy
   public newTasks = new Array(5)
   public newNotifications = new Array(5)
 
+  username: string | null = "";
+
   constructor(
     private classToggler: ClassToggleService,
     private securityService: SecurityService,
     private router: Router) {
     super();
+  }
+
+  ngOnInit(): void {
+    this.username = this.securityService.getUsername();
   }
 
   onLogoutClick(): void {

@@ -16,6 +16,8 @@ import {ActivePaymentComponent} from "./views/active-payment/active-payment.comp
 import {PaymentCallbackComponent} from "./views/payment-callback/payment-callback.component";
 import {YourOrderComponent} from "./views/your-order/your-order.component";
 import {CreateOrderComponent} from "./views/create-order/create-order.component";
+import {YourOrderDetailComponent} from "./views/your-order-detail/your-order-detail.component";
+import {AdminPriceComponent} from "./views/admin-price/admin-price.component";
 
 const routes: Routes = [
   {
@@ -102,6 +104,14 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'your-orders/:id',
+        component: YourOrderDetailComponent,
+        data: {
+          title: $localize`Your Orders`
+        },
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'create-order',
         component: CreateOrderComponent,
         data: {
@@ -109,24 +119,14 @@ const routes: Routes = [
         },
         canActivate: [AuthGuard],
       },
-      // {
-      //   path: 'base',
-      //   loadChildren: () =>
-      //     import('./views/base/base.module').then((m) => m.BaseModule),
-      //   canActivate: [AuthGuard]
-      // },
-      // {
-      //   path: 'notifications',
-      //   loadChildren: () =>
-      //     import('./views/notifications/notifications.module').then((m) => m.NotificationsModule),
-      //   canActivate: [AuthGuard]
-      // },
-      // {
-      //   path: 'widgets',
-      //   loadChildren: () =>
-      //     import('./views/widgets/widgets.module').then((m) => m.WidgetsModule),
-      //   canActivate: [AuthGuard]
-      // },
+      {
+        path: 'price-setup',
+        component: AdminPriceComponent,
+        data: {
+          title: $localize`Setup Price`
+        },
+        canActivate: [AuthGuard],
+      },
       {
         path: 'pages',
         loadChildren: () =>

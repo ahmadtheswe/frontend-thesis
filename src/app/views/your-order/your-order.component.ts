@@ -16,7 +16,7 @@ export class YourOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscription.add(this.imageService.getPreOrder().subscribe({
+    this.subscription.add(this.imageService.getPreOrderList().subscribe({
       next: (data) => {
         this.preOrderList = data.data;
       }
@@ -25,5 +25,25 @@ export class YourOrderComponent implements OnInit {
 
   onCreateNewOrderClick() {
     this.router.navigate(["/create-order"]);
+  }
+
+  downloadImage(preoderId: string) {
+    this.subscription.add(this.imageService.preorderDownloadImage(preoderId).subscribe(blob => {
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.target = '_blank';
+      link.click();
+    }));
+  }
+
+  redirectToPreOrderDetail(preoderId: string) {
+    this.router.navigateByUrl(`/your-orders/${preoderId}`);
+  }
+
+  redirectToPayingUrl(redirectUrl: string) {
+    const link = document.createElement('a');
+    link.href = redirectUrl;
+    link.target = '_blank';
+    link.click();
   }
 }

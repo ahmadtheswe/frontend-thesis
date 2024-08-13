@@ -8,4 +8,7 @@ export interface PreOrderResponse {
   isActive?: boolean;
   createdAt?: number;
   deliveredAt?: number;
+  isPaid?: boolean;
+  redirectUrl?: string;
+  probeType?: string;
 }

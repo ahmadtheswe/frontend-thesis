@@ -1,15 +1,18 @@
-import {AfterViewInit, Component, Input, OnDestroy} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import * as L from "leaflet";
 import {ImageService} from "../../service/image-service/image.service";
 import {Subscription} from "rxjs";
 import {BBox} from "../../model/dto/entity/BBox";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {CopernicusPriceDto} from "../../service/copernicus-price-service/copernicus-price-dto";
+import {CopernicusPriceService} from "../../service/copernicus-price-service/copernicus-price.service";
 
 @Component({
   selector: 'app-create-order',
   templateUrl: './create-order.component.html',
   styleUrls: ['./create-order.component.scss']
 })
-export class CreateOrderComponent implements AfterViewInit, OnDestroy {
+export class CreateOrderComponent implements AfterViewInit, OnDestroy, OnInit {
   @Input() mapId: string = 'map';
   private map!: L.Map;
   drawnItems: any[] = [];
@@ -18,15 +21,18 @@ export class CreateOrderComponent implements AfterViewInit, OnDestroy {
   secondPoint: L.LatLng | null = null;
   rectangle: any;
 
+  firstMarker: L.Marker | null = null;
+  secondMarker: L.Marker | null = null;
+
   xPixel: number | null = null;
   yPixel: number | null = null;
 
   selectWithMap: boolean = true;
 
-  minLon?: number;
-  minLat?: number;
-  maxLon?: number;
-  maxLat?: number;
+  minLon?: number = 0;
+  minLat?: number = 0;
+  maxLon?: number = 0;
+  maxLat?: number = 0;
   bboxCoordinates: [number, number, number, number] | null = null;
   EARTH_RADIUS_KM = 6371;
   private bBoxRequest: BBox = {};
@@ -35,8 +41,51 @@ export class CreateOrderComponent implements AfterViewInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private mapInitialized: boolean = false;
 
+  isCalculated = false;
 
-  constructor(private imageService: ImageService) {
+  form: FormGroup;
+
+  probeType: string = "";
+
+  priceEstimation = "";
+
+  copernicusPrices: CopernicusPriceDto[] = [];
+
+  // Define the custom icon
+  markerIcon = {
+    icon: L.icon({
+      iconSize: [25, 41],
+      iconAnchor: [10, 41],
+      popupAnchor: [2, -40],
+      iconUrl: "https://unpkg.com/leaflet@1.5.1/dist/images/marker-icon.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.5.1/dist/images/marker-shadow.png"
+    })
+  };
+
+  constructor(
+    private imageService: ImageService,
+    private cdr: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private copernicusPriceService: CopernicusPriceService
+  ) {
+    this.form = this.fb.group({
+      minLon: [0],
+      minLat: [0],
+      maxLon: [0],
+      maxLat: [0]
+    });
+
+    this.form.valueChanges.subscribe(value => {
+      this.updateValueOfBBox(value);
+    });
+  }
+
+  ngOnInit(): void {
+    this.subscription.add(this.copernicusPriceService.getPriceList().subscribe({
+      next: data => {
+        this.copernicusPrices = data;
+      }
+    }))
   }
 
   ngAfterViewInit() {
@@ -47,6 +96,8 @@ export class CreateOrderComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.map)
       this.map.remove();
+
+    this.subscription.unsubscribe();
   }
 
   initMap(): void {
@@ -68,8 +119,16 @@ export class CreateOrderComponent implements AfterViewInit, OnDestroy {
     if (this.drawing) {
       if (!this.firstPoint) {
         this.firstPoint = e.latlng;
+        if (this.firstMarker) {
+          this.map.removeLayer(this.firstMarker);
+        }
+        this.firstMarker = L.marker(this.firstPoint, this.markerIcon).addTo(this.map);
       } else if (!this.secondPoint) {
         this.secondPoint = e.latlng;
+        if (this.secondMarker) {
+          this.map.removeLayer(this.secondMarker);
+        }
+        this.secondMarker = L.marker(this.secondPoint, this.markerIcon).addTo(this.map);
         this.drawRectangle();
       }
     }
@@ -77,6 +136,14 @@ export class CreateOrderComponent implements AfterViewInit, OnDestroy {
 
   startDrawing(): void {
     this.drawing = true;
+    if (this.firstMarker) {
+      this.map.removeLayer(this.firstMarker);
+      this.firstMarker = null;
+    }
+    if (this.secondMarker) {
+      this.map.removeLayer(this.secondMarker);
+      this.secondMarker = null;
+    }
   }
 
   drawRectangle(): void {
@@ -153,7 +220,7 @@ export class CreateOrderComponent implements AfterViewInit, OnDestroy {
   }
 
   saveRequest() {
-    this.subscription.add(this.imageService.requestPreOrder(this.bBoxRequest, this.areaInKm!).subscribe({
+    this.subscription.add(this.imageService.requestPreOrder(this.bBoxRequest, this.areaInKm!, this.probeType).subscribe({
       next: data => {
       },
       error: err => {
@@ -161,8 +228,22 @@ export class CreateOrderComponent implements AfterViewInit, OnDestroy {
     }))
   }
 
+  calculateArea(): void {
+    this.isCalculated = true;
+    this.bboxCoordinates = [this.minLon!, this.minLat!, this.maxLon!, this.maxLat!];
+    this.areaInKm = this.calculateBBoxArea(this.bboxCoordinates!);
+    this.bBoxRequest = {
+      minLongitude: this.bboxCoordinates![0],
+      minLatitude: this.bboxCoordinates![1],
+      maxLongitude: this.bboxCoordinates![2],
+      maxLatitude: this.bboxCoordinates![3],
+    }
+
+    this.calculatePixelDimensions();
+  }
+
   onSelectWithMapChange(): void {
-    console.log('selectWithMap changed to:', this.selectWithMap);
+    this.probeType = "";
     if (this.selectWithMap) {
       setTimeout(() => this.initMap(), 0);
     } else {
@@ -173,18 +254,33 @@ export class CreateOrderComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  updateValueOfBBox() {
-    this.bboxCoordinates = [this.minLon!, this.minLat!, this.maxLon!, this.maxLat!];
+  updateValueOfBBox(value: any) {
+    this.bboxCoordinates = [value.minLon!, value.minLat!, value.maxLon!, value.maxLat!];
     this.bBoxRequest = {
       minLongitude: this.bboxCoordinates[0],
       minLatitude: this.bboxCoordinates[1],
       maxLongitude: this.bboxCoordinates[2],
       maxLatitude: this.bboxCoordinates[3],
     }
+    this.cdr.detectChanges();
   }
 
   degToRad(deg: number): number {
     return deg * (Math.PI / 180);
   }
 
+  onProbeTypeChange(selectedProbe?: string) {
+  console.log('Selected probe type: ', selectedProbe);
+  if (selectedProbe === "") {
+    this.priceEstimation = "";
+  } else {
+    const selectedPrice = this.copernicusPrices.find(price => price.id === selectedProbe);
+    const price = selectedPrice?.price! * this.areaInKm!;
+    const formatter = new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+    });
+    this.priceEstimation = formatter.format(price);
+  }
+}
 }

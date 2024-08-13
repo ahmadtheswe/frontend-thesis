@@ -33,17 +33,25 @@
                     [ngModelOptions]="{standalone: true}"
                   />
                 </c-input-group>
+                <c-input-group *ngIf="loginError">
+                  <c-alert color="danger" class="d-flex align-items-center">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">
+                      <use xlink:href="#exclamation-triangle-fill"/>
+                    </svg>
+                    <div>Username or password incorrect!</div>
+                  </c-alert>
+                </c-input-group>
                 <c-row>
                   <c-col xs="6">
                     <button cButton class="px-4" type="submit" color="primary">
                       Login
                     </button>
                   </c-col>
-                  <c-col class="text-right" xs="6">
-                    <button cButton class="px-0" color="link">
-                      Forgot password?
-                    </button>
-                  </c-col>
+<!--                  <c-col class="text-right" xs="6">-->
+<!--                    <button cButton class="px-0" color="link">-->
+<!--                      Forgot password?-->
+<!--                    </button>-->
+<!--                  </c-col>-->
                 </c-row>
               </form>
             </c-card-body>

@@ -90,6 +90,7 @@ export class SecurityService {
     localStorage.removeItem("email");
     localStorage.removeItem("username");
     localStorage.removeItem("activeOrderId");
+    localStorage.removeItem("imageId");
   }
 
   register(registerRequest: RegisterRequest): Observable<HttpResponse<DataResponse<string>>> {

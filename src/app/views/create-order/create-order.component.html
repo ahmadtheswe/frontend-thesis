@@ -12,55 +12,156 @@
     </div>
   </div>
 </div>
-<form>
-  <ng-container *ngIf="selectWithMap">
+
+<ng-container *ngIf="selectWithMap">
+  <form>
     <div [id]="mapId" class="map"></div>
-    <button (click)="startDrawing()">Start Drawing Rectangle</button>
-  </ng-container>
+    <button class="btn btn-info" style="margin-top: 20px" (click)="startDrawing()">Start Drawing Rectangle</button>
+    <ng-container *ngIf="bboxCoordinates">
+      <div>
+        <p>Bbox Coordinates:</p>
+        <div>
+          <c-row>
+            <c-col [xs]>
+              <label cLabel for="min-longitude-preview">Min Longitude</label>
+              <input id="min-longitude-preview" aria-label="bbox-1" [value]="bboxCoordinates[0]"
+                     [disabled]="true"
+                     cFormControl placeholder="bbox-1"/>
+            </c-col>
+            <c-col [xs]>
+              <label cLabel for="min-latitude-preview">Min Latitude</label>
+              <input id="min-latitude-preview" aria-label="bbox-1" [value]="bboxCoordinates[1]"
+                     [disabled]="true"
+                     cFormControl placeholder="bbox-2"/>
+            </c-col>
+          </c-row>
+        </div>
+        <div>
+          <c-row>
+            <c-col [xs]>
+              <label cLabel for="max-longitude-preview">Max Longitude</label>
+              <input id="max-longitude-preview" aria-label="bbox-1" [value]="bboxCoordinates[2]"
+                     [disabled]="true"
+                     cFormControl placeholder="bbox-3"/>
+            </c-col>
+            <c-col [xs]>
+              <label cLabel for="max-latitude-preview">Max Latitude</label>
+              <input id="max-latitude-preview" aria-label="bbox-1" [value]="bboxCoordinates[3]"
+                     [disabled]="true"
+                     cFormControl placeholder="bbox-4"/>
+            </c-col>
+          </c-row>
+        </div>
+        <div>
+          <c-row>
+            <c-col [xs]>
+              <label cLabel for="probe-type-by-map">Supply Data</label>
+              <select id="probe-type-by-map" aria-label="Select supply data" [(ngModel)]="probeType"
+                      [ngModelOptions]="{standalone: true}" (change)="onProbeTypeChange(probeType)" cSelect>
+                <option [value]="''">-- Select Supply Data --</option>
+                <option *ngFor="let price of copernicusPrices;" [value]="price.id"> {{ price.name }} -
+                  (IDR {{ price.price }} / kmsqrt)
+                </option>
+              </select>
+            </c-col>
+            <c-col [xs]>
+              <label cLabel for="area">Area</label>
+              <input id="area" aria-label="area" [value]="areaInKm + ' kmsqrt'"
+                     [disabled]="true"
+                     cFormControl placeholder="Area"/>
+            </c-col>
+          </c-row>
+        </div>
+        <div>
+          <c-row>
+            <c-col [xs]>
+              <label cLabel for="price-estimation-by-map">Price Estimation</label>
+              <input id="price-estimation-by-map" aria-label="bbox-1" [value]="priceEstimation"
+                     [disabled]="true"
+                     cFormControl placeholder="select supply data type to get price estimation"/>
+            </c-col>
+            <c-col [xs]>
 
-  <ng-container *ngIf="!selectWithMap">
+            </c-col>
+          </c-row>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-success" style="margin-top: 20px" [disabled]="priceEstimation === ''"
+                (click)="saveRequest()">Save Request
+        </button>
+      </div>
+    </ng-container>
+  </form>
+</ng-container>
+<ng-container *ngIf="!selectWithMap">
+  <form (ngSubmit)="calculateArea()">
     <c-row>
       <c-col [xs]>
-        <c-col [xs]>
-          <label cLabel for="min-longitude">Min Longitude</label>
-          <input id="min-longitude" aria-label="Min Longitude" [(ngModel)]="minLon"
-                 (ngModelChange)="updateValueOfBBox()"
-                 cFormControl placeholder="Min Longitude"/>
-        </c-col>
+        <label cLabel for="min-longitude">Min Longitude</label>
+        <input id="min-longitude" aria-label="Min Longitude" [(ngModel)]="minLon"
+               name="minLon" cFormControl placeholder="Min Longitude"/>
+      </c-col>
+      <c-col [xs]>
         <label cLabel for="min-latitude">Min Latitude</label>
-        <input id="min-latitude" aria-label="Min Latitude" [(ngModel)]="minLat" (ngModelChange)="updateValueOfBBox()"
-               cFormControl placeholder="Max Latitude"/>
+        <input id="min-latitude" aria-label="Min Latitude" [(ngModel)]="minLat"
+               name="minLat" cFormControl placeholder="Max Latitude"/>
       </c-col>
     </c-row>
 
     <c-row>
       <c-col [xs]>
-        <c-col [xs]>
-          <label cLabel for="max-longitude">Max Longitude</label>
-          <input id="max-longitude" aria-label="Max Longitude" [(ngModel)]="maxLon"
-                 (ngModelChange)="updateValueOfBBox()"
-                 cFormControl placeholder="Min Longitude"/>
-        </c-col>
+        <label cLabel for="max-longitude">Max Longitude</label>
+        <input id="max-longitude" aria-label="Max Longitude" [(ngModel)]="maxLon"
+               name="maxLon" cFormControl placeholder="Min Longitude"/>
+      </c-col>
+      <c-col [xs]>
         <label cLabel for="max-latitude">Max Latitude</label>
-        <input id="max-latitude" aria-label="Max Latitude" [(ngModel)]="maxLat" (ngModelChange)="updateValueOfBBox()"
-               cFormControl placeholder="Max Latitude"/>
+        <input id="max-latitude" aria-label="Max Latitude" [(ngModel)]="maxLat"
+               name="maxLat" cFormControl placeholder="Max Latitude"/>
       </c-col>
     </c-row>
-  </ng-container>
-
-  <ng-container *ngIf="bboxCoordinates">
     <div>
-      <p>Bbox Coordinates:</p>
-      <p>Min Longitude: {{ bboxCoordinates[0] }}</p>
-      <p>Min Latitude: {{ bboxCoordinates[1] }}</p>
-      <p>Max Longitude: {{ bboxCoordinates[2] }}</p>
-      <p>Max Latitude: {{ bboxCoordinates[3] }}</p>
-      <p>Image size : {{ xPixel }}px x {{ yPixel }}px</p>
-      <p>Area (in KM sqrt) : {{ areaInKm }} kmsqrt</p>
+      <button type="submit" class="btn btn-info" style="margin-top: 20px">Calculate</button>
+    </div>
+  </form>
+
+  <ng-container *ngIf="isCalculated">
+    <div>
+      <c-row>
+        <c-col [xs]>
+          <label cLabel for="probe-type">Supply Data</label>
+          <select id="probe-type" aria-label="Select supply data" [(ngModel)]="probeType"
+                  [ngModelOptions]="{standalone: true}" (change)="onProbeTypeChange(probeType)" cSelect>
+            <option [value]="''">-- Select Supply Data --</option>
+            <option *ngFor="let price of copernicusPrices;" [value]="price.id"> {{ price.name }} -
+              (IDR {{ price.price }} / kmsqrt)
+            </option>
+          </select>
+        </c-col>
+        <c-col [xs]>
+          <label cLabel for="area-prev">Area</label>
+          <input id="area-prev" aria-label="area-prev" [value]="areaInKm + ' kmsqrt'"
+                 [disabled]="true"
+                 cFormControl placeholder="Area"/>
+        </c-col>
+      </c-row>
+      <c-row>
+        <c-col [xs]>
+          <label cLabel for="price-estimation">Price Estimation</label>
+          <input id="price-estimation" aria-label="bbox-1" [value]="priceEstimation"
+                 [disabled]="true"
+                 cFormControl placeholder="select supply data type to get price estimation"/>
+        </c-col>
+        <c-col [xs]>
+
+        </c-col>
+      </c-row>
+    </div>
+    <div>
+      <button class="btn btn-success" style="margin-top: 20px" [disabled]="probeType === ''" (click)="saveRequest()">
+        Save Request
+      </button>
     </div>
   </ng-container>
-
-  <div>
-    <button (click)="saveRequest()">Save Request</button>
-  </div>
-</form>
+</ng-container>

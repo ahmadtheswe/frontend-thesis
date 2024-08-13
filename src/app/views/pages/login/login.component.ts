@@ -14,6 +14,7 @@ export class LoginComponent implements OnDestroy {
 
   loginRequest: Login = {};
   private subscription = new Subscription();
+  loginError = false;
 
   constructor(
     private securityService: SecurityService,
@@ -23,17 +24,25 @@ export class LoginComponent implements OnDestroy {
   }
 
   onSubmit() {
+    this.loginError = false;
     this.subscription.add(this.securityService.login(this.loginRequest.username!, this.loginRequest.password!)
       .subscribe({
         next: response => {
           this.securityService.handleResponse(response.data!);
-          this.paymentService.checkOnProgressPayment().subscribe(onProgressPayment => {
-            if(onProgressPayment !== undefined || true) {
-              localStorage.setItem("activeOrderId", onProgressPayment.id);
-              console.log(`active order id: ${localStorage.getItem("activeOrderId")}`);
+          this.paymentService.checkOnProgressPayment().subscribe({
+            next: onProgressPayment => {
+              if (onProgressPayment !== undefined || true) {
+                localStorage.setItem("activeOrderId", onProgressPayment.id);
+                console.log(`active order id: ${localStorage.getItem("activeOrderId")}`);
+              }
+            },
+            error: error => {
+              console.log(error);
             }
           })
           this.router.navigate(['/dashboard']);
+        }, error: error => {
+          this.loginError = true;
         }
       }));
   }

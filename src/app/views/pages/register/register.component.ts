@@ -46,21 +46,30 @@ export class RegisterComponent implements OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.registerRequest);
-    this.subscription.add(
-      this.securityService.register(this.registerRequest).subscribe({
-          next: value => {
-            this.message = value.body?.messages;
-            this.isSuccess = true;
-            this.toggleToast();
-          },
-          error: err => {
-            this.message = ["Username / email already exists"];
-            this.isSuccess = false;
-            this.toggleToast();
+    if (this.registerForm.valid) {
+      this.registerRequest = {
+        username: this.registerForm.get('username')?.value,
+        email: this.registerForm.get('email')?.value,
+        firstName: this.registerForm.get('firstName')?.value,
+        lastName: this.registerForm.get('lastName')?.value,
+        password: this.registerForm.get('password')?.value
+      };
+      console.log(this.registerRequest);
+      this.subscription.add(
+        this.securityService.register(this.registerRequest).subscribe({
+            next: value => {
+              this.message = value.body?.messages;
+              this.isSuccess = true;
+              this.toggleToast();
+            },
+            error: err => {
+              this.message = ["Username / email already exists"];
+              this.isSuccess = false;
+              this.toggleToast();
+            }
           }
-        }
-      ))
+        ));
+    }
   }
 
   toggleToast() {

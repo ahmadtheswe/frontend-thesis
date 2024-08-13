@@ -1,0 +1,47 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Setup Price</strong>
+      </c-card-header>
+      <c-card-body>
+
+        <ng-container>
+          <table cTable>
+            <thead>
+            <tr>
+              <th scope="col">Supply Data ID</th>
+              <th scope="col">Supply Data Name</th>
+              <th scope="col">Price (IDR)</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let price of copernicusPrices">
+              <td>{{ price.id }}</td>
+              <td>{{ price.name }}</td>
+              <td>
+                <ng-container *ngIf="!price.isUpdating">
+                  {{ price.price }}
+                </ng-container>
+                <ng-container *ngIf="price.isUpdating">
+                  <input type="number" [(ngModel)]="price.price"/>
+                </ng-container>
+              </td>
+              <td>
+                <ng-container *ngIf="!price.isUpdating">
+                  <button class="btn btn-info" (click)="onEditClick(price.id)">Edit</button>
+                </ng-container>
+                <ng-container *ngIf="price.isUpdating">
+                  <button class="btn btn-success" (click)="saveEdit(price)">Save</button>
+                  <button class="btn btn-danger" (click)="cancelUpdate(price.id)">Cancel</button>
+                </ng-container>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-container>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

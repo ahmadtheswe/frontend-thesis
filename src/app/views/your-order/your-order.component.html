@@ -2,35 +2,49 @@
   <c-col xs="12">
     <c-card class="mb-4">
       <c-card-header>
-        <strong>Images</strong>
+        <strong>Your Orders</strong>
       </c-card-header>
       <c-card-body>
         <div class="create-new-order-ctnr">
-          <button (click)="onCreateNewOrderClick()">Create New Order</button>
+          <button class="btn btn-info" (click)="onCreateNewOrderClick()">Create New Order</button>
         </div>
         <div class="mat-elevation-z8">
           <table cTable>
             <thead>
             <tr>
               <th scope="col">Center Coordinate</th>
-              <th scope="col">Minimum Longitude</th>
-              <th scope="col">Minimum Latitude</th>
-              <th scope="col">Maximum Longitude</th>
-              <th scope="col">Maximum Latitude</th>
+              <th scope="col">BBox</th>
+              <th scope="col">Supply Data</th>
               <th scope="col">Requested At</th>
               <th scope="col">Delivered At</th>
+              <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            <ng-container>
-              <tr *ngFor="let preOrder of preOrderList">
-                <td>({{preOrder.centerCoordinateResponse?.latitude}}, {{preOrder.centerCoordinateResponse?.longitude}})</td>
-                <td>{{preOrder.bboxResponse?.minLongitude}}</td>
-                <td>{{preOrder.bboxResponse?.minLatitude}}</td>
-                <td>{{preOrder.bboxResponse?.maxLongitude}}</td>
-                <td>{{preOrder.bboxResponse?.maxLatitude}}</td>
-                <td>{{preOrder.createdAt}}</td>
-                <td>{{preOrder.deliveredAt}}</td>
+            <ng-container *ngFor="let preOrder of preOrderList">
+              <tr>
+                <td rowspan="4">({{ preOrder.centerCoordinateResponse?.latitude }}, {{ preOrder.centerCoordinateResponse?.longitude }})</td>
+                <td>{{ preOrder.bboxResponse?.minLongitude }}</td>
+                <td rowspan="4">{{ preOrder.probeType }}</td>
+                <td rowspan="4">{{ preOrder.createdAt }}</td>
+                <td rowspan="4">{{ preOrder.deliveredAt }}</td>
+                <td rowspan="4">
+                  <button class="btn btn-info" *ngIf="preOrder.isPaid" (click)="redirectToPreOrderDetail(preOrder.id!)">
+                    View
+                  </button>
+                  <button class="btn btn-success" *ngIf="!preOrder.isPaid"
+                          (click)="redirectToPayingUrl(preOrder!.redirectUrl!)">Pay
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>{{ preOrder.bboxResponse?.minLatitude }}</td>
+              </tr>
+              <tr>
+                <td>{{ preOrder.bboxResponse?.maxLongitude }}</td>
+              </tr>
+              <tr>
+                <td>{{ preOrder.bboxResponse?.maxLatitude }}</td>
               </tr>
             </ng-container>
             </tbody>

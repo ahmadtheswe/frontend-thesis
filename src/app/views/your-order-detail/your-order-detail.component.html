@@ -1,0 +1,53 @@
+<div>
+  <p>Bbox Coordinates:</p>
+  <div>
+    <c-row>
+      <c-col [xs]>
+        <label cLabel for="min-longitude-preview">Min Longitude</label>
+        <input id="min-longitude-preview" aria-label="bbox-1" [value]="preOrder!.bboxResponse?.minLongitude"
+               [disabled]="true"
+               cFormControl placeholder="bbox-1"/>
+      </c-col>
+      <c-col [xs]>
+        <label cLabel for="min-latitude-preview">Min Latitude</label>
+        <input id="min-latitude-preview" aria-label="bbox-1" [value]="preOrder!.bboxResponse?.minLatitude"
+               [disabled]="true"
+               cFormControl placeholder="bbox-2"/>
+      </c-col>
+    </c-row>
+  </div>
+  <div>
+    <c-row>
+      <c-col [xs]>
+        <label cLabel for="max-longitude-preview">Max Longitude</label>
+        <input id="max-longitude-preview" aria-label="bbox-1" [value]="preOrder!.bboxResponse?.maxLongitude"
+               [disabled]="true"
+               cFormControl placeholder="bbox-3"/>
+      </c-col>
+      <c-col [xs]>
+        <label cLabel for="max-latitude-preview">Max Latitude</label>
+        <input id="max-latitude-preview" aria-label="bbox-1" [value]="preOrder!.bboxResponse?.maxLatitude"
+               [disabled]="true"
+               cFormControl placeholder="bbox-4"/>
+      </c-col>
+    </c-row>
+  </div>
+  <div>
+    <c-row>
+      <c-col [xs]>
+        <label cLabel for="center-latitude">Center Latitude</label>
+        <input id="center-latitude" aria-label="center-latitude" [value]="preOrder!.centerCoordinateResponse?.latitude"
+               [disabled]="true"
+               cFormControl placeholder="center latitude"/>
+      </c-col>
+      <c-col [xs]>
+        <label cLabel for="center-longitude">Center Longitude</label>
+        <input id="center-longitude" aria-label="center-longitude" [value]="preOrder!.centerCoordinateResponse?.longitude"
+               [disabled]="true"
+               cFormControl placeholder="center longitude"/>
+      </c-col>
+    </c-row>
+  </div>
+  <button class="btn btn-info" style="margin-top: 10px;" *ngIf="preOrder!.isPaid" (click)="downloadImage(preOrder!.id!)">Download</button>
+</div>
+
